@@ -65659,13 +65659,28 @@ var App = /*#__PURE__*/function (_Component) {
 
   var _super = _createSuper(App);
 
-  function App() {
+  function App(props) {
+    var _this;
+
     _classCallCheck(this, App);
 
-    return _super.apply(this, arguments);
+    _this = _super.call(this, props);
+    _this.state = {
+      name: '',
+      tasks: []
+    };
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(App, [{
+    key: "handleChange",
+    value: function handleChange(e) {
+      this.setState({
+        name: e.target.value
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -65680,7 +65695,20 @@ var App = /*#__PURE__*/function (_Component) {
         className: "card-header"
       }, "Example Component"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
-      }, "I'm an example component!")))));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        className: "form-control",
+        row: "5",
+        value: this.state.name,
+        placeholder: "Create a new task",
+        required: true,
+        maxLength: "255",
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        className: "btn btn-primary float-right"
+      }, "Create Task")))))));
     }
   }]);
 
@@ -65733,8 +65761,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/xiangtianluo/Desktop/taskManager/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/xiangtianluo/Desktop/taskManager/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/xiangtianluo/Desktop/taskManager /resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/xiangtianluo/Desktop/taskManager /resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Axios from 'axios';
 
 export default class App extends Component {
     constructor(props){
@@ -8,12 +9,22 @@ export default class App extends Component {
             tasks:[]
         }
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(e){
         this.setState({
             name: e.target.value
         })
+    }
+
+    handleSubmit(e){
+        e.preventDefault();
+        axios.post('/tasks', {
+            name: this.state.name
+        }).then(response=>{
+            console.log('successfully!!!',response)
+        });
     }
 
 
@@ -26,7 +37,7 @@ export default class App extends Component {
                             <div className="card-header">Example Component</div>
 
                             <div className="card-body">
-                                <form>
+                                <form onSubmit = {this.handleSubmit}>
                                     <div className = 'form-group'>
                                         <textarea 
                                         className='form-control' 

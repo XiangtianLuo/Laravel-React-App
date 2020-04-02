@@ -15,8 +15,8 @@ class TaskController extends Controller
 
     public function index(Request $request, Task $task)
     {
-        $allTasks = $task->whereIn('user_id',$request->user())->with('user');
-        $task = $allTasks->orderBy('create_at','desc')->take(20)->get();
+        $allTasks = $task->whereIn('user_id', $request->user())->with('user');
+        $tasks = $allTasks->orderBy('created_at','desc')->take(20)->get();
 
         return response()->json([
             'tasks' => $tasks,
@@ -46,16 +46,22 @@ class TaskController extends Controller
 
     public function edit($id)
     {
-        //
+        $task = Task::findOrFail($id);
+        return response()->json([
+            'task' => $task,
+        ]);
     }
 
     public function update(Request $request, $id)
     {
-        //
+        $input = $request->all();
+        $task = Task::findOrFail($id);
+        $task->update($input);
+        return response()->json($task->with('user')->find($task->id));
     }
 
     public function destroy($id)
     {
-        //
+        Task::findOrFail($id)->delete();
     }
 }

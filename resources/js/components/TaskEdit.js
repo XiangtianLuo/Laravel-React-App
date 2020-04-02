@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
-import { Link } from 'react-router-dom';
 
-export default class App extends Component {
+export default class TaskEdit extends Component {
     constructor(props){
         super(props);
         this.state = {
             name:'',
-            tasks:[]
+            task:[]
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.renderTask = this.renderTask.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
     }
 
     handleChange(e){
@@ -23,27 +19,17 @@ export default class App extends Component {
 
     handleSubmit(e){
         e.preventDefault();
-        axios.post('/tasks', {
+        axios.put(`/tasks/${this.props.match.params.id}`, {
             name: this.state.name
         }).then(response=>{
-            this.setState({
-                tasks:[response.data, ...this.state.tasks],
-                name: ''
-            });
+            this.props.history.push('/');
         });
     }
 
-    handleDelete(id) {
-        const isNotId = task => task.id !== id;
-        const updatedTask = this.state.tasks.filter(isNotId);
-        this.setState({tasks: updatedTask });
-
-        axios.delete(`/tasks/${id}`);
-    }
-
     getTasks() {
-        axios.get('/tasks').then(response=> this.setState({
-            tasks: [...response.data.tasks]
+        axios.get(`/tasks/${this.props.match.params.id}/edit`).then(response=> this.setState({
+            task: response.data.task,
+            name: response.data.task.name
         }));
     }
 
@@ -51,28 +37,13 @@ export default class App extends Component {
         this.getTasks();
     }
 
-    renderTask(){
-        return this.state.tasks.map(task => (
-            <div key={task.id} className='media'>
-                <div className='media-body'> 
-                    <div> 
-                        {task.name}
-                        <button className='btn-warning float-right btn-sm' onClick={()=> this.handleDelete(task.id)}> Delete </button>
-                        <Link className='btn-danger btn-sm float-right' to={`/${task.id}/edit`} > Update </Link>
-                    </div>
-                </div>
-            </div>
-        ));
-    }
-
-
     render() {
         return (
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-md-8">
                         <div className="card">
-                            <div className="card-header">Example Component</div>
+                            <div className="card-header">Edit Task</div>
 
                             <div className="card-body">
                                 <form onSubmit = {this.handleSubmit}>
@@ -88,11 +59,10 @@ export default class App extends Component {
                                         />
                                     </div>
                                     <button type='submit' className="btn btn-primary">
-                                        Create Task
+                                        Edit Task
                                     </button>
                                 </form>
                                 <hr />
-                                {this.renderTask()}
                             </div>
                         </div>
                     </div>

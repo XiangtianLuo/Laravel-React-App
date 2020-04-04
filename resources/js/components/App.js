@@ -57,8 +57,12 @@ export default class App extends Component {
                 <div className='media-body'> 
                     <div> 
                         {task.name}
-                        <button className='btn-warning float-right btn-sm' onClick={()=> this.handleDelete(task.id)}> Delete </button>
-                        <Link className='btn-danger btn-sm float-right' to={`/${task.id}/edit`} > Update </Link>
+                        <span>
+                            <br />
+                            {task.updated_at.split(' ').slice(0,1)}
+                        </span>
+                        <button className='btn-danger btn-sm float-right' onClick={()=> this.handleDelete(task.id)}> Delete </button>
+                        <Link className='btn-warning btn-sm float-right mr-2' to={`/${task.id}/edit`} > Update </Link>
                     </div>
                 </div>
             </div>

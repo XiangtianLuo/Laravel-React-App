@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-export default class App extends Component {
+const mapStateToProps = (state) =>{
+    console.log(state)
+    return {
+        name: state.name,
+        tasks: [...state.tasks]
+    }
+} // enable this component the access to the Rudux-store and define what it wants to get.  
+
+class App extends Component {
     constructor(props){
         super(props);
         this.state = {
-            name:'',
+            name:this.props.name, // Use the current state
             tasks:[]
         }
         this.handleChange = this.handleChange.bind(this);
@@ -42,9 +50,11 @@ export default class App extends Component {
     }
 
     getTasks() {
-        axios.get('/tasks').then(response=> this.setState({
-            tasks: [...response.data.tasks]
-        }));
+        const { dispatch } = this.props;
+        dispatch({ type: 'FETCH_TASKDATA'});  
+        //axios.get('/tasks').then(response=> this.setState({
+        //    tasks: [...response.data.tasks]
+        //})); 
     }
 
     componentWillMount() {
@@ -52,7 +62,7 @@ export default class App extends Component {
     }
 
     renderTask(){
-        return this.state.tasks.map(task => (
+        return this.props.tasks.map(task => (
             <div key={task.id} className='media'>
                 <div className='media-body'> 
                     <div> 
@@ -84,7 +94,7 @@ export default class App extends Component {
                                         <textarea 
                                         className='form-control' 
                                         row='5'
-                                        value={this.state.name}
+                                        value={this.props.name} // we use props directly
                                         placeholder='Create a new task' 
                                         required
                                         maxLength = '255'
@@ -105,3 +115,5 @@ export default class App extends Component {
         );
     }
 }
+
+export default connect(mapStateToProps)(App);

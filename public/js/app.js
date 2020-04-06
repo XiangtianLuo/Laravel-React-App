@@ -75923,6 +75923,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -75961,10 +75962,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
+
 var mapStateToProps = function mapStateToProps(state) {
   console.log(state);
   return {
-    name: state.name,
+    trackingNumber: state.trackingNumber,
+    orderDescription: state.orderDescription,
     tasks: _toConsumableArray(state.tasks)
   };
 }; // enable this component the access to the Rudux-store and define what it wants to get.  
@@ -75982,9 +75985,10 @@ var App = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      name: _this.props.name,
+      trackingNumber: _this.props.trackingNumber,
       // Use the current state
-      tasks: []
+      orderDescription: _this.orderDescription,
+      tasks: _toConsumableArray(_this.props.tasks)
     };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
@@ -75994,26 +75998,47 @@ var App = /*#__PURE__*/function (_Component) {
   }
 
   _createClass(App, [{
-    key: "handleChange",
-    value: function handleChange(e) {
-      this.setState({
-        name: e.target.value
-      });
-    }
-  }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
-      var _this2 = this;
-
       e.preventDefault();
-      axios.post('/tasks', {
-        name: this.state.name
-      }).then(function (response) {
-        _this2.setState({
-          tasks: [response.data].concat(_toConsumableArray(_this2.state.tasks)),
-          name: ''
-        });
+      var dispatch = this.props.dispatch;
+      dispatch({
+        type: 'CREATE_NEWTASK',
+        payload: {
+          trackingNumber: this.state.trackingNumber,
+          orderDescription: this.state.orderDescription
+        }
       });
+    } //axios.post('/tasks', {
+    //   trackingNumber: this.state.trackingNumber,
+    //    orderDescription:this.state.orderDescription
+    //}).then(response=>{
+    //    console.log(response);
+    //    this.setState({
+    //        tasks:[response.data, ...this.state.tasks],//add the new one to the existing array
+    //        name: ''
+    //    });
+    //});
+
+  }, {
+    key: "handleChange",
+    value: function handleChange(e) {
+      // according to the react doc, the way to handle mutuple inputs, altough it is shit. 
+      var target = e.target;
+
+      switch (target.name) {
+        case "trackingNumber":
+          this.setState({
+            trackingNumber: target.value
+          });
+          break;
+
+        case "orderDescription":
+          this.setState({
+            orderDescription: target.value
+          });
+          break;
+      }
     }
   }, {
     key: "handleDelete",
@@ -76046,7 +76071,7 @@ var App = /*#__PURE__*/function (_Component) {
   }, {
     key: "renderTask",
     value: function renderTask() {
-      var _this3 = this;
+      var _this2 = this;
 
       return this.props.tasks.map(function (task) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -76054,10 +76079,10 @@ var App = /*#__PURE__*/function (_Component) {
           className: "media"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "media-body"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, task.name, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), task.updated_at.split(' ').slice(0, 1)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), task.trackingNumber + task.description), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           className: "btn-danger btn-sm float-right",
           onClick: function onClick() {
-            return _this3.handleDelete(task.id);
+            return _this2.handleDelete(task.id);
           }
         }, " Delete "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           className: "btn-warning btn-sm float-right mr-2",
@@ -76087,11 +76112,20 @@ var App = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
         className: "form-control",
         row: "5",
-        value: this.props.name // we use props directly
+        onChange: this.handleChange //value={this.props.trackingNumber} // we use props directly
         ,
-        placeholder: "Create a new task",
+        placeholder: "Create a trackingNumber",
         required: true,
         maxLength: "255",
+        name: "trackingNumber"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        className: "form-control",
+        row: "5" // we use props directly
+        ,
+        placeholder: "The discription about the order",
+        required: true,
+        maxLength: "255",
+        name: "orderDescription",
         onChange: this.handleChange
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
@@ -76319,12 +76353,14 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var taskReducerDefaultState = {
-  name: '',
+  trackingNumber: '',
+  orderDescription: '',
   tasks: []
 };
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : taskReducerDefaultState;
   var action = arguments.length > 1 ? arguments[1] : undefined;
+  console.log(action);
 
   switch (action.type) {
     case "SET_UP":
@@ -76332,7 +76368,15 @@ var taskReducerDefaultState = {
 
     case "CREATE_TASKDATA":
       return _objectSpread({}, state, {
-        tasks: _toConsumableArray(action.tasks) // duplicate the non-changing ones //state remains the same, while action will determine the new number. 
+        tasks: _toConsumableArray(action.tasks) //After fetched the data from database, change the state locally and re-render the data
+
+      });
+
+    case "CREATE_NEWTASK":
+      return _objectSpread({}, state, {
+        //TASK 并没有改变, 现在是需要再次进行一次getalltask 还是怎么处理？
+        trackingNumber: action.trackingNumber,
+        orderDescription: action.orderDescription // populate the default state into the redux store, as initialization
 
       });
   }
@@ -76356,7 +76400,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var _marked = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(fetch_taskData),
-    _marked2 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(rootSaga);
+    _marked2 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(create_newTask),
+    _marked3 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchCreateNewTask),
+    _marked4 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchFetchTaskData),
+    _marked5 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(rootSaga);
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -76370,7 +76417,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-
+ //Saga file will take care of the side-effect(namely asynchronous action only), once finished, then change the state locally via action
 
 function fetch_taskData() {
   var response;
@@ -76405,20 +76452,91 @@ function fetch_taskData() {
   }, _marked);
 }
 
-function rootSaga() {
-  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function rootSaga$(_context2) {
+function create_newTask(action) {
+  var response;
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function create_newTask$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('FETCH_TASKDATA', fetch_taskData);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(function () {
+            return axios.post('/tasks', {
+              trackingNumber: action.payload.trackingNumber,
+              orderDescription: action.payload.orderDescription
+            });
+          });
 
         case 2:
+          response = _context2.sent;
+          console.log(response);
+
+          if (!(response.status === 200)) {
+            _context2.next = 7;
+            break;
+          }
+
+          _context2.next = 7;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+            type: "CREATE_NEWTASK",
+            trackingNumber: response.data.trackingNumber,
+            orderDescription: response.data.description
+          });
+
+        case 7:
         case "end":
           return _context2.stop();
       }
     }
   }, _marked2);
+} // create the order detail*** 
+
+
+function watchCreateNewTask() {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchCreateNewTask$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.next = 2;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('CREATE_NEWTASK', create_newTask);
+
+        case 2:
+        case "end":
+          return _context3.stop();
+      }
+    }
+  }, _marked3);
+}
+
+function watchFetchTaskData() {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchFetchTaskData$(_context4) {
+    while (1) {
+      switch (_context4.prev = _context4.next) {
+        case 0:
+          _context4.next = 2;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('FETCH_TASKDATA', fetch_taskData);
+
+        case 2:
+        case "end":
+          return _context4.stop();
+      }
+    }
+  }, _marked4);
+}
+
+function rootSaga() {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function rootSaga$(_context5) {
+    while (1) {
+      switch (_context5.prev = _context5.next) {
+        case 0:
+          _context5.next = 2;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([watchCreateNewTask(), watchFetchTaskData()]);
+
+        case 2:
+        case "end":
+          return _context5.stop();
+      }
+    }
+  }, _marked5);
 }
 
 /***/ }),

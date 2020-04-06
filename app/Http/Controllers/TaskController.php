@@ -12,7 +12,6 @@ class TaskController extends Controller
         $this->middleware('auth');
     }
 
-
     public function index(Request $request, Task $task)
     {
         $allTasks = $task->whereIn('user_id', $request->user())->with('user');
@@ -22,6 +21,7 @@ class TaskController extends Controller
             'tasks' => $tasks,
         ]);
     }
+    
 
     public function create()
     {
@@ -31,13 +31,14 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name' => 'required|max:255',
+            'trackingNumber' => 'required|max:255',
         ]);
         $task = $request->user()->tasks()->create([
-            'name' => $request -> name,
+            'trackingNumber' => $request -> trackingNumber,//this is the vital part, taking the data from request and place it into the database
+            'description' => $request -> orderDescription,
         ]);
        return response()->json($task->with('user')->find($task->id));
-    }
+    } // very important part, need to get more familliar with the mySQL
 
     public function show($id)
     {

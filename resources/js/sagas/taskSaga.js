@@ -13,15 +13,18 @@ function* fetch_taskData() {
 
 function* create_newTask(action) {
   const response = yield call(()=> axios.post('/tasks', {
-    trackingNumber: action.payload.trackingNumber,
-    orderDescription: action.payload.orderDescription
+    customer_name: action.customer_name,
+    trackingNumber: action.trackingNumber,
+    orderDescription: action.orderDescription,
+    freightCompany: action.freightCompany,
   }))
   console.log(response);
   if(response.status === 200){
     yield put({
-      type:"CREATE_NEWTASK",
-      trackingNumber:response.data.trackingNumber,
-      orderDescription:response.data.description
+      type:"CREATE_NEWTASK_SUCCESSFUL",
+      payload: response.data
+      //trackingNumber:response.data.trackingNumber,
+      //orderDescription:response.data.description,
     })
   }
 } // create the order detail*** 

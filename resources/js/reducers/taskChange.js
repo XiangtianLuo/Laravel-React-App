@@ -1,23 +1,21 @@
-const taskReducerDefaultState = { trackingNumber:'', orderDescription:'', tasks:[]};
+const taskReducerDefaultState = { customer_name:'', trackingNumber:'', orderDescription:'', tasks:[], freightCompany:'AuExpress'};
 
-export default ( state = taskReducerDefaultState, action )=>{    
-  console.log(action)
+export default ( state = taskReducerDefaultState, action )=>{
+  console.log(action);
+  console.log(state);
   switch(action.type){
-          case "SET_UP":
-            return {
-                ...state,// populate the default state into the redux store, as initialization
-              }
           case "CREATE_TASKDATA":
-            return {
-                ...state,
-                tasks: [...action.tasks]//After fetched the data from database, change the state locally and re-render the data
-              }
-
-          case "CREATE_NEWTASK":
-            return {
-                ...state,//TASK 并没有改变, 现在是需要再次进行一次getalltask 还是怎么处理？
-                trackingNumber: action.trackingNumber,
-                orderDescription: action.orderDescription// populate the default state into the redux store, as initialization
-              }
-          }
+              return Object.assign({}, state, {
+                tasks: [...action.tasks]
+              })
+          case "CREATE_NEWTASK_SUCCESSFUL":
+            return Object.assign({}, state, { 
+              customer_name: action.payload.customer_name,
+              trackingNumber: action.payload.trackingNumber,
+              orderDescription: action.payload.description,
+              tasks:[...[action.payload],...state.tasks]
+            })
+            default:
+                return state;
+      }
 }// reducer

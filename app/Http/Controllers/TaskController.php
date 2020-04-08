@@ -34,10 +34,12 @@ class TaskController extends Controller
             'trackingNumber' => 'required|max:255',
         ]);
         $task = $request->user()->tasks()->create([
+            'customer_name' => $request -> customer_name,
             'trackingNumber' => $request -> trackingNumber,//this is the vital part, taking the data from request and place it into the database
             'description' => $request -> orderDescription,
+            'freightCompany'=> $request-> freightCompany
         ]);
-       return response()->json($task->with('user')->find($task->id));
+       return response()->json($task->with('user')->find($task->id));//we need the new task!!
     } // very important part, need to get more familliar with the mySQL
 
     public function show($id)

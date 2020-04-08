@@ -15,8 +15,6 @@ const store = createStore(taskReducer, applyMiddleware(sagaMiddleware))
 
 sagaMiddleware.run(rootsaga);
 
-store.dispatch({type: "SET_UP"});
-
 if (document.getElementById('root')) {
     ReactDOM.render(
         <BrowserRouter>

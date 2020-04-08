@@ -75966,12 +75966,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 var mapStateToProps = function mapStateToProps(state) {
   console.log(state);
   return {
+    customer_name: state.customer_name,
     trackingNumber: state.trackingNumber,
     orderDescription: state.orderDescription,
     tasks: _toConsumableArray(state.tasks)
   };
-}; // enable this component the access to the Rudux-store and define what it wants to get.  
+};
 
+var itemsList = ["A2 1段", "A2 2段", "A2 3段", "A2 4段", "爱他美铂金1段", "爱他美铂金2段", "爱他美铂金3段", "爱他美铂金4段", "爱他美金装1段", "爱他美金装2段", "爱他美金装3段", "爱他美金装4段", "Bubs羊奶 1段", "Bubs羊奶 2段", "Bubs羊奶 3段", "贝拉米1段", "贝拉米2段", "贝拉米3段", "贝拉米4段", "小安素奶粉", "糖尿病人奶粉", "其他奶粉", 'Bioisland 儿童乳钙', 'Bioisland 儿童DHA', 'Bioisland 儿童鳕鱼油', 'Bioisland 儿童锌', 'Bioisland 孕妇DHA', 'Ostelin 儿童VD滴液', '']; // enable this component the access to the Rudux-store and define what it wants to get.  
 
 var App = /*#__PURE__*/function (_Component) {
   _inherits(App, _Component);
@@ -75985,15 +75987,18 @@ var App = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
     _this.state = {
+      customer_name: _this.props.customer_name,
       trackingNumber: _this.props.trackingNumber,
       // Use the current state
-      orderDescription: _this.orderDescription,
+      orderDescription: _this.props.orderDescription,
+      freightCompany: _this.props.freightCompany,
       tasks: _toConsumableArray(_this.props.tasks)
     };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.renderTask = _this.renderTask.bind(_assertThisInitialized(_this));
     _this.handleDelete = _this.handleDelete.bind(_assertThisInitialized(_this));
+    _this.getTasks = _this.getTasks.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -76004,10 +76009,10 @@ var App = /*#__PURE__*/function (_Component) {
       var dispatch = this.props.dispatch;
       dispatch({
         type: 'CREATE_NEWTASK',
-        payload: {
-          trackingNumber: this.state.trackingNumber,
-          orderDescription: this.state.orderDescription
-        }
+        customer_name: this.state.customer_name,
+        trackingNumber: this.state.trackingNumber,
+        orderDescription: this.state.orderDescription,
+        freightCompany: this.state.freightCompany
       });
     } //axios.post('/tasks', {
     //   trackingNumber: this.state.trackingNumber,
@@ -76027,6 +76032,12 @@ var App = /*#__PURE__*/function (_Component) {
       var target = e.target;
 
       switch (target.name) {
+        case "customer_name":
+          this.setState({
+            customer_name: target.value
+          });
+          break;
+
         case "trackingNumber":
           this.setState({
             trackingNumber: target.value
@@ -76036,6 +76047,12 @@ var App = /*#__PURE__*/function (_Component) {
         case "orderDescription":
           this.setState({
             orderDescription: target.value
+          });
+          break;
+
+        case "freightCompany":
+          this.setState({
+            freightCompany: target.value
           });
           break;
       }
@@ -76110,16 +76127,45 @@ var App = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
-        className: "form-control",
+        className: "form-control mb-2",
         row: "5",
         onChange: this.handleChange //value={this.props.trackingNumber} // we use props directly
         ,
-        placeholder: "Create a trackingNumber",
+        placeholder: "Enter the customer name",
+        required: true,
+        maxLength: "255",
+        name: "customer_name"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        className: "form-control mb-2",
+        row: "5",
+        onChange: this.handleChange //value={this.props.trackingNumber} // we use props directly
+        ,
+        placeholder: "Enter the TrackingNumber",
         required: true,
         maxLength: "255",
         name: "trackingNumber"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
-        className: "form-control",
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-6 col align-self-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "col-5",
+        id: "exampleFormControlSelect1"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "A2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Bellamy"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Aptimail"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Kericare"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Bubs")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "col-5 ml-1",
+        id: "exampleFormControlSelect2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "1"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "5"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "6")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-6 no-gutters"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row justify-content-end"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-sm btn-success col-4"
+      }, " Confirm"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        className: "form-control mt-2 mb-2",
         row: "5" // we use props directly
         ,
         placeholder: "The discription about the order",
@@ -76127,6 +76173,15 @@ var App = /*#__PURE__*/function (_Component) {
         maxLength: "255",
         name: "orderDescription",
         onChange: this.handleChange
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        className: "form-control",
+        row: "5",
+        onChange: this.handleChange //value={this.props.trackingNumber} // we use props directly
+        ,
+        placeholder: "Please choose the freight company",
+        required: true,
+        maxLength: "255",
+        name: "freightCompany"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
         className: "btn btn-primary"
@@ -76309,9 +76364,6 @@ __webpack_require__.r(__webpack_exports__);
 var sagaMiddleware = Object(redux_saga__WEBPACK_IMPORTED_MODULE_8__["default"])();
 var store = Object(redux__WEBPACK_IMPORTED_MODULE_6__["createStore"])(_reducers_taskChange__WEBPACK_IMPORTED_MODULE_7__["default"], Object(redux__WEBPACK_IMPORTED_MODULE_6__["applyMiddleware"])(sagaMiddleware));
 sagaMiddleware.run(_sagas_taskSaga__WEBPACK_IMPORTED_MODULE_9__["default"]);
-store.dispatch({
-  type: "SET_UP"
-});
 
 if (document.getElementById('root')) {
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Route"], {
@@ -76346,39 +76398,35 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var taskReducerDefaultState = {
+  customer_name: '',
   trackingNumber: '',
   orderDescription: '',
-  tasks: []
+  tasks: [],
+  freightCompany: 'AuExpress'
 };
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : taskReducerDefaultState;
   var action = arguments.length > 1 ? arguments[1] : undefined;
   console.log(action);
+  console.log(state);
 
   switch (action.type) {
-    case "SET_UP":
-      return _objectSpread({}, state);
-
     case "CREATE_TASKDATA":
-      return _objectSpread({}, state, {
-        tasks: _toConsumableArray(action.tasks) //After fetched the data from database, change the state locally and re-render the data
-
+      return Object.assign({}, state, {
+        tasks: _toConsumableArray(action.tasks)
       });
 
-    case "CREATE_NEWTASK":
-      return _objectSpread({}, state, {
-        //TASK 并没有改变, 现在是需要再次进行一次getalltask 还是怎么处理？
-        trackingNumber: action.trackingNumber,
-        orderDescription: action.orderDescription // populate the default state into the redux store, as initialization
-
+    case "CREATE_NEWTASK_SUCCESSFUL":
+      return Object.assign({}, state, {
+        customer_name: action.payload.customer_name,
+        trackingNumber: action.payload.trackingNumber,
+        orderDescription: action.payload.description,
+        tasks: [action.payload].concat(_toConsumableArray(state.tasks))
       });
+
+    default:
+      return state;
   }
 }); // reducer
 
@@ -76461,8 +76509,10 @@ function create_newTask(action) {
           _context2.next = 2;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(function () {
             return axios.post('/tasks', {
-              trackingNumber: action.payload.trackingNumber,
-              orderDescription: action.payload.orderDescription
+              customer_name: action.customer_name,
+              trackingNumber: action.trackingNumber,
+              orderDescription: action.orderDescription,
+              freightCompany: action.freightCompany
             });
           });
 
@@ -76477,9 +76527,10 @@ function create_newTask(action) {
 
           _context2.next = 7;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
-            type: "CREATE_NEWTASK",
-            trackingNumber: response.data.trackingNumber,
-            orderDescription: response.data.description
+            type: "CREATE_NEWTASK_SUCCESSFUL",
+            payload: response.data //trackingNumber:response.data.trackingNumber,
+            //orderDescription:response.data.description,
+
           });
 
         case 7:

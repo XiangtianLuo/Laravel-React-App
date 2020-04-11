@@ -1,13 +1,14 @@
 import { put, takeEvery, call, all } from 'redux-saga/effects'
 //Saga file will take care of the side-effect(namely asynchronous action only), once finished, then change the state locally via action
 
-function* fetch_taskData() {
+function* fetch_Tasks_Items_Data() {
   const response = yield call(()=>axios.get('/tasks'));
   if(response.status === 200){
-        yield put({
-        type:"CREATE_TASKDATA",
-        tasks: [...response.data.tasks]
-    }) 
+    yield put({
+      type:"FETCH_TASKS_AND_ITEMS_DATA",//This is locally changing the state at redux store
+      tasks: [...response.data.tasks],
+      itemList: [...response.data.itemList]
+    })
   }
 }
 
@@ -18,7 +19,6 @@ function* create_newTask(action) {
     orderDescription: action.orderDescription,
     freightCompany: action.freightCompany,
   }))
-  console.log(response);
   if(response.status === 200){
     yield put({
       type:"CREATE_NEWTASK_SUCCESSFUL",
@@ -33,13 +33,13 @@ function* watchCreateNewTask() {
   yield takeEvery('CREATE_NEWTASK', create_newTask)
 }
 
-function* watchFetchTaskData() {
-  yield takeEvery('FETCH_TASKDATA', fetch_taskData)
+function* watchFetchTaskAndItemsData() {
+  yield takeEvery('FETCH_TASKS_ITEMS_DATA', fetch_Tasks_Items_Data)
 }
 
 export default function* rootSaga() {
   yield all([
-    watchCreateNewTask(),
-    watchFetchTaskData()
+    watchFetchTaskAndItemsData(),
+    watchCreateNewTask()
   ])
 }

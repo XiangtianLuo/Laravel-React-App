@@ -1,12 +1,11 @@
-const taskReducerDefaultState = { customer_name:'', trackingNumber:'', orderDescription:'', tasks:[], freightCompany:'AuExpress'};
+const taskReducerDefaultState = { customer_name:'', trackingNumber:'', orderDescription:'', tasks:[], itemList:[], freightCompany:'AuExpress'};
 
 export default ( state = taskReducerDefaultState, action )=>{
-  console.log(action);
-  console.log(state);
   switch(action.type){
-          case "CREATE_TASKDATA":
+          case "FETCH_TASKS_AND_ITEMS_DATA":
               return Object.assign({}, state, {
-                tasks: [...action.tasks]
+                tasks: [...action.tasks],
+                itemList: [...action.itemList]// combine the arrays into one array
               })
           case "CREATE_NEWTASK_SUCCESSFUL":
             return Object.assign({}, state, { 

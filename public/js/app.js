@@ -75964,16 +75964,16 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 var mapStateToProps = function mapStateToProps(state) {
-  console.log(state);
   return {
     customer_name: state.customer_name,
     trackingNumber: state.trackingNumber,
     orderDescription: state.orderDescription,
-    tasks: _toConsumableArray(state.tasks)
+    tasks: _toConsumableArray(state.tasks),
+    itemList: _toConsumableArray(state.itemList)
   };
-};
+}; //const itemsList = ["A2 1段","A2 2段","A2 3段","A2 4段","爱他美铂金1段","爱他美铂金2段","爱他美铂金3段","爱他美铂金4段","爱他美金装1段","爱他美金装2段","爱他美金装3段","爱他美金装4段","Bubs羊奶 1段","Bubs羊奶 2段","Bubs羊奶 3段","贝拉米1段","贝拉米2段","贝拉米3段","贝拉米4段","小安素奶粉","糖尿病人奶粉","其他奶粉",'Bioisland 儿童乳钙','Bioisland 儿童DHA','Bioisland 儿童鳕鱼油','Bioisland 儿童锌','Bioisland 孕妇DHA','Ostelin 儿童VD滴液','']
+// enable this component the access to the Rudux-store and define what it wants to get.  
 
-var itemsList = ["A2 1段", "A2 2段", "A2 3段", "A2 4段", "爱他美铂金1段", "爱他美铂金2段", "爱他美铂金3段", "爱他美铂金4段", "爱他美金装1段", "爱他美金装2段", "爱他美金装3段", "爱他美金装4段", "Bubs羊奶 1段", "Bubs羊奶 2段", "Bubs羊奶 3段", "贝拉米1段", "贝拉米2段", "贝拉米3段", "贝拉米4段", "小安素奶粉", "糖尿病人奶粉", "其他奶粉", 'Bioisland 儿童乳钙', 'Bioisland 儿童DHA', 'Bioisland 儿童鳕鱼油', 'Bioisland 儿童锌', 'Bioisland 孕妇DHA', 'Ostelin 儿童VD滴液', '']; // enable this component the access to the Rudux-store and define what it wants to get.  
 
 var App = /*#__PURE__*/function (_Component) {
   _inherits(App, _Component);
@@ -75990,28 +75990,48 @@ var App = /*#__PURE__*/function (_Component) {
       customer_name: _this.props.customer_name,
       trackingNumber: _this.props.trackingNumber,
       // Use the current state
-      orderDescription: _this.props.orderDescription,
+      orderDescription: [],
+      orderDescription_string: '',
       freightCompany: _this.props.freightCompany,
-      tasks: _toConsumableArray(_this.props.tasks)
+      tasks: _toConsumableArray(_this.props.tasks),
+      itemList: _toConsumableArray(_this.props.itemList),
+      item_quantity: 0,
+      item_name: ''
     };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.renderTask = _this.renderTask.bind(_assertThisInitialized(_this));
     _this.handleDelete = _this.handleDelete.bind(_assertThisInitialized(_this));
-    _this.getTasks = _this.getTasks.bind(_assertThisInitialized(_this));
+    _this.initialization = _this.initialization.bind(_assertThisInitialized(_this));
+    _this.handleItemSubmit = _this.handleItemSubmit.bind(_assertThisInitialized(_this));
+    _this.renderItems = _this.renderItems.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(App, [{
     key: "handleSubmit",
     value: function handleSubmit(e) {
+      var _this2 = this;
+
       e.preventDefault();
       var dispatch = this.props.dispatch;
+
+      var orderDescription_string = function () {
+        var description = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+        _this2.state.orderDescription.forEach(function (i) {
+          description = description + i.name + '*' + i.quantity + ' ';
+        });
+
+        return description;
+      }();
+
       dispatch({
         type: 'CREATE_NEWTASK',
         customer_name: this.state.customer_name,
         trackingNumber: this.state.trackingNumber,
         orderDescription: this.state.orderDescription,
+        orderDescription_string: orderDescription_string,
         freightCompany: this.state.freightCompany
       });
     } //axios.post('/tasks', {
@@ -76025,6 +76045,18 @@ var App = /*#__PURE__*/function (_Component) {
     //    });
     //});
 
+  }, {
+    key: "handleItemSubmit",
+    value: function handleItemSubmit() {
+      //Get the orderDescription_string from this function
+      this.setState({
+        orderDescription: [].concat(_toConsumableArray(this.state.orderDescription), [{
+          name: this.state.item_name,
+          quantity: this.state.item_quantity
+        }]) //continue to add the new item_name and item-quantity to the order_description Array
+
+      });
+    }
   }, {
     key: "handleChange",
     value: function handleChange(e) {
@@ -76055,6 +76087,18 @@ var App = /*#__PURE__*/function (_Component) {
             freightCompany: target.value
           });
           break;
+
+        case "item_name":
+          this.setState({
+            item_name: target.value
+          });
+          break;
+
+        case "item_quantity":
+          this.setState({
+            item_quantity: parseInt(target.value)
+          });
+          break;
       }
     }
   }, {
@@ -76071,24 +76115,32 @@ var App = /*#__PURE__*/function (_Component) {
       axios["delete"]("/tasks/".concat(id));
     }
   }, {
-    key: "getTasks",
-    value: function getTasks() {
+    key: "initialization",
+    value: function initialization() {
       var dispatch = this.props.dispatch;
       dispatch({
-        type: 'FETCH_TASKDATA'
-      }); //axios.get('/tasks').then(response=> this.setState({
-      //    tasks: [...response.data.tasks]
-      //})); 
+        type: 'FETCH_TASKS_ITEMS_DATA'
+      });
     }
   }, {
     key: "componentWillMount",
     value: function componentWillMount() {
-      this.getTasks();
+      this.initialization();
+    }
+  }, {
+    key: "renderItems",
+    value: function renderItems() {
+      return this.props.itemList.map(function (item, index) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          key: index,
+          value: item.name
+        }, " ", item.name, " ");
+      });
     }
   }, {
     key: "renderTask",
     value: function renderTask() {
-      var _this2 = this;
+      var _this3 = this;
 
       return this.props.tasks.map(function (task) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -76099,7 +76151,7 @@ var App = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), task.trackingNumber + task.description), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           className: "btn-danger btn-sm float-right",
           onClick: function onClick() {
-            return _this2.handleDelete(task.id);
+            return _this3.handleDelete(task.id);
           }
         }, " Delete "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           className: "btn-warning btn-sm float-right mr-2",
@@ -76110,6 +76162,8 @@ var App = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this4 = this;
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -76153,23 +76207,48 @@ var App = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        onChange: this.handleChange,
         className: "col-5",
-        id: "exampleFormControlSelect1"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "A2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Bellamy"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Aptimail"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Kericare"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Bubs")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        name: "item_name"
+      }, this.renderItems()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        onChange: this.handleChange,
         className: "col-5 ml-1",
-        id: "exampleFormControlSelect2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "1"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "5"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "6")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        name: "item_quantity"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, " Quantity "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: 1
+      }, "1"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: 2
+      }, "2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: 3
+      }, "3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: 4
+      }, "4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: 5
+      }, "5"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: 6
+      }, "6")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-6 no-gutters"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row justify-content-end"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.handleItemSubmit,
+        type: "submit",
         className: "btn btn-sm btn-success col-4"
-      }, " Confirm"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+      }, " Confirm "))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
         className: "form-control mt-2 mb-2",
         row: "5" // we use props directly
         ,
         placeholder: "The discription about the order",
         required: true,
+        value: function () {
+          var description = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+          _this4.state.orderDescription.forEach(function (i) {
+            description = description + i.name + '*' + i.quantity + ' ';
+          });
+
+          return description;
+        }(),
         maxLength: "255",
         name: "orderDescription",
         onChange: this.handleChange
@@ -76403,18 +76482,19 @@ var taskReducerDefaultState = {
   trackingNumber: '',
   orderDescription: '',
   tasks: [],
+  itemList: [],
   freightCompany: 'AuExpress'
 };
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : taskReducerDefaultState;
   var action = arguments.length > 1 ? arguments[1] : undefined;
-  console.log(action);
-  console.log(state);
 
   switch (action.type) {
-    case "CREATE_TASKDATA":
+    case "FETCH_TASKS_AND_ITEMS_DATA":
       return Object.assign({}, state, {
-        tasks: _toConsumableArray(action.tasks)
+        tasks: _toConsumableArray(action.tasks),
+        itemList: _toConsumableArray(action.itemList) // combine the arrays into one array
+
       });
 
     case "CREATE_NEWTASK_SUCCESSFUL":
@@ -76447,10 +76527,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/dist/redux-saga-effects-npm-proxy.esm.js");
 
 
-var _marked = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(fetch_taskData),
+var _marked = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(fetch_Tasks_Items_Data),
     _marked2 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(create_newTask),
     _marked3 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchCreateNewTask),
-    _marked4 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchFetchTaskData),
+    _marked4 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchFetchTaskAndItemsData),
     _marked5 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(rootSaga);
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -76467,9 +76547,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
  //Saga file will take care of the side-effect(namely asynchronous action only), once finished, then change the state locally via action
 
-function fetch_taskData() {
+function fetch_Tasks_Items_Data() {
   var response;
-  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function fetch_taskData$(_context) {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function fetch_Tasks_Items_Data$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
@@ -76488,8 +76568,10 @@ function fetch_taskData() {
 
           _context.next = 6;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
-            type: "CREATE_TASKDATA",
-            tasks: _toConsumableArray(response.data.tasks)
+            type: "FETCH_TASKS_AND_ITEMS_DATA",
+            //This is locally changing the state at redux store
+            tasks: _toConsumableArray(response.data.tasks),
+            itemList: _toConsumableArray(response.data.itemList)
           });
 
         case 6:
@@ -76518,14 +76600,13 @@ function create_newTask(action) {
 
         case 2:
           response = _context2.sent;
-          console.log(response);
 
           if (!(response.status === 200)) {
-            _context2.next = 7;
+            _context2.next = 6;
             break;
           }
 
-          _context2.next = 7;
+          _context2.next = 6;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
             type: "CREATE_NEWTASK_SUCCESSFUL",
             payload: response.data //trackingNumber:response.data.trackingNumber,
@@ -76533,7 +76614,7 @@ function create_newTask(action) {
 
           });
 
-        case 7:
+        case 6:
         case "end":
           return _context2.stop();
       }
@@ -76558,13 +76639,13 @@ function watchCreateNewTask() {
   }, _marked3);
 }
 
-function watchFetchTaskData() {
-  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchFetchTaskData$(_context4) {
+function watchFetchTaskAndItemsData() {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchFetchTaskAndItemsData$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.next = 2;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('FETCH_TASKDATA', fetch_taskData);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('FETCH_TASKS_ITEMS_DATA', fetch_Tasks_Items_Data);
 
         case 2:
         case "end":
@@ -76580,7 +76661,7 @@ function rootSaga() {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.next = 2;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([watchCreateNewTask(), watchFetchTaskData()]);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([watchFetchTaskAndItemsData(), watchCreateNewTask()]);
 
         case 2:
         case "end":

@@ -10,4 +10,7 @@ class Task extends Model
     public function user() { //this name is an access to get value from the table according to the relationship defined
         return $this->belongsTo(User::class);
     }
+    public function items() {
+        return $this->belongsToMany(Item::class)->withPivot('quantity');
+    }
 }

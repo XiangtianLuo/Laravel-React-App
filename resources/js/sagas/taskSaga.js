@@ -18,6 +18,7 @@ function* create_newTask(action) {
     trackingNumber: action.trackingNumber,
     orderDescription: action.orderDescription,
     freightCompany: action.freightCompany,
+    orderDescription_string: action.orderDescription_string
   }))
   if(response.status === 200){
     yield put({
@@ -27,10 +28,24 @@ function* create_newTask(action) {
       //orderDescription:response.data.description,
     })
   }
-} // create the order detail*** 
+}
+
+function* delete_task(action){
+  const response = yield call(()=> axios.delete(`/tasks/${action.Deleted_id}`));
+  if(response.status === 200){
+    yield put({
+      type:'UPDATE_TASKS',
+      Deleted_id: action.Deleted_id
+    })
+  }
+}
 
 function* watchCreateNewTask() {
   yield takeEvery('CREATE_NEWTASK', create_newTask)
+}
+
+function* watchDeleteTask() {
+  yield takeEvery('DELETE_TASK', delete_task)
 }
 
 function* watchFetchTaskAndItemsData() {
@@ -40,6 +55,7 @@ function* watchFetchTaskAndItemsData() {
 export default function* rootSaga() {
   yield all([
     watchFetchTaskAndItemsData(),
-    watchCreateNewTask()
+    watchCreateNewTask(),
+    watchDeleteTask()
   ])
 }

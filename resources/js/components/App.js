@@ -47,7 +47,7 @@ class App extends Component {
             })
             return description;
         })();
-        console.log(orderDescription_string);
+
         dispatch ({ 
             type: 'CREATE_NEWTASK',
             customer_name: this.state.customer_name,

@@ -11,6 +11,7 @@ import taskReducer from './reducers/taskChange';
 import createSagaMiddleware from 'redux-saga';
 import rootsaga from './sagas/taskSaga';
 import CreateTask from './components/CreateTask';
+import PaginationPage from './components/Pagination'
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(taskReducer, applyMiddleware(sagaMiddleware))

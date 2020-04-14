@@ -8,7 +8,7 @@ const TasksList =(props)=> (
             <div className='bor'>
                 <span>
                     <br />
-                    {'姓名: '+ task.customer_name + ' 单号: '+ task.trackingNumber + ' ' + '订单详情: '+ task.description}
+                    {'姓名: '+ task.customer_name + ' 单号: '+ task.trackingNumber + ' ' + '订单详情: '+ task.description + '  ' +task.created_at}
                 </span>
                   <button onClick={()=> (props.handleDelete(task.id))} className='btn-outline-danger btn-sm float-right'> 删除 </button>
                   <button className='btn-outline-info btn-sm float-right mr-1'> 修改 </button>

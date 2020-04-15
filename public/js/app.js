@@ -77388,29 +77388,7 @@ var TaskForm = /*#__PURE__*/function (_Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-
-
-
-
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    filtered_tasks: _toConsumableArray(state.filtered_tasks)
-  };
-};
 
 var TasksFilter = function TasksFilter(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -77420,18 +77398,13 @@ var TasksFilter = function TasksFilter(props) {
   }, "\u5F53\u524D\u8BA2\u5355"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-8"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    onChange: function onChange(e) {
-      props.dispatch({
-        type: 'TASKS_FILTER',
-        filtered_information: e.target.value
-      });
-    },
+    onChange: props.onchange,
     className: "float-right border border-primary rounded text-center",
     placeholder: "\u5FEB\u901F\u67E5\u627E\u8BA2\u5355"
   })));
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps)(TasksFilter));
+/* harmony default export */ __webpack_exports__["default"] = (TasksFilter);
 
 /***/ }),
 
@@ -77451,23 +77424,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var TasksList = function TasksList(props) {
-  return props.tasks.map(function (task) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      key: task.id,
-      className: "media"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "media-body"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "bor"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), '姓名: ' + task.customer_name + ' 单号: ' + task.trackingNumber + ' ' + '订单详情: ' + task.description + '  ' + task.created_at), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      onClick: function onClick() {
-        return props.handleDelete(task.id);
-      },
-      className: "btn-outline-danger btn-sm float-right"
-    }, " \u5220\u9664 "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: "btn-outline-info btn-sm float-right mr-1"
-    }, " \u4FEE\u6539 "))));
-  });
+  return props.tasks ? props.tasks.slice((props.targeted_page - 1) * 3, props.targeted_page * 3).map(function (task) {
+    return (
+      /*#__PURE__*/
+      //carry out magination here in lower component
+      react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        key: task.id,
+        className: "media"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "media-body"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "bor"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), '姓名: ' + task.customer_name + ' 单号: ' + task.trackingNumber + ' ' + '订单详情: ' + task.description + '  ' + task.created_at), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: function onClick() {
+          return props.handleDelete(task.id);
+        },
+        className: "btn-outline-danger btn-sm float-right"
+      }, " \u5220\u9664 "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn-outline-info btn-sm float-right mr-1"
+      }, " \u4FEE\u6539 "))))
+    );
+  }) : [];
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (TasksList);
@@ -77535,10 +77512,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    tasks: _toConsumableArray(state.tasks),
-    filtered_tasks: _toConsumableArray(state.filtered_tasks),
-    pagination_tasks: _toConsumableArray(state.pagination_tasks),
-    activePage: state.activePage
+    tasks: _toConsumableArray(state.tasks)
   };
 };
 
@@ -77555,12 +77529,13 @@ var TasksPage = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      tasks: _toConsumableArray(_this.props.tasks),
-      activePage: _this.props.activePage
+      activePage: 1,
+      filtered_tasks: []
     };
     _this.initialization = _this.initialization.bind(_assertThisInitialized(_this));
     _this.handleDelete = _this.handleDelete.bind(_assertThisInitialized(_this));
     _this.handlePageChange = _this.handlePageChange.bind(_assertThisInitialized(_this));
+    _this.onTextchange = _this.onTextchange.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -77568,26 +77543,43 @@ var TasksPage = /*#__PURE__*/function (_Component) {
     key: "initialization",
     value: function initialization() {
       var dispatch = this.props.dispatch;
+      var ok = dispatch({
+        type: 'FETCH_TASKS_ITEMS_DATA'
+      });
       dispatch({
         type: 'FETCH_TASKS_ITEMS_DATA'
       });
+      console.log(ok);
     }
   }, {
     key: "handleDelete",
     value: function handleDelete(id) {
+      //after handle delete method need to re-oriented to the 1st page
       var dispatch = this.props.dispatch;
       dispatch({
         type: 'DELETE_TASK',
         Deleted_id: id
       });
+      this.setState({
+        activePage: 1
+      });
+    }
+  }, {
+    key: "onTextchange",
+    value: function onTextchange(Text) {
+      this.setState({
+        filtered_tasks: Text.target.value.trim() === '' ? this.props.tasks : this.props.tasks.filter(function (task, index) {
+          var reg = new RegExp(Text.target.value);
+          return task.customer_name.trim().match(reg) || task.trackingNumber.trim().match(reg) || task.description.trim().match(reg);
+        }),
+        activePage: 1
+      });
     }
   }, {
     key: "handlePageChange",
     value: function handlePageChange(pageNumber) {
-      var dispatch = this.props.dispatch;
-      dispatch({
-        type: 'TASK_PAGINATION',
-        targeted_page: pageNumber
+      this.setState({
+        activePage: pageNumber
       });
     }
   }, {
@@ -77618,37 +77610,30 @@ var TasksPage = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
-    key: "shouldComponentUpdate",
-    value: function shouldComponentUpdate(NextProps, NextState) {
-      return NextProps.activePage != this.props.activePage || JSON.stringify(NextProps.filtered_tasks) != JSON.stringify(this.props.filtered_tasks) || JSON.stringify(NextProps.pagination_tasks) != JSON.stringify(this.props.pagination_tasks);
-    } //if without JSON.stringfy to compare 2 arrays, the componentDidUpdate will get into the endless loop due to the constant "false" value of arrayA == arrayB
-
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate() {
-      this.handlePageChange(this.props.activePage); //This part is very important, since it will always call function: handlePageChange to get the new pagination 
-    }
-  }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
+    key: "componentWillMount",
+    value: function componentWillMount() {
       this.initialization();
     }
   }, {
     key: "render",
     value: function render() {
+      var display_tasks = this.state.filtered_tasks == false ? this.props.tasks : this.state.filtered_tasks;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-10 text-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card text-left"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TasksFilter__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TasksFilter__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        onchange: this.onTextchange
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body bg-light"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TasksList__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        targeted_page: this.state.activePage,
         handleDelete: this.handleDelete,
-        tasks: this.props.pagination_tasks
+        tasks: display_tasks
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Pagination__WEBPACK_IMPORTED_MODULE_6__["default"], {
-        totalItemsCount: this.props.filtered_tasks.length,
+        totalItemsCount: display_tasks.length,
         handlePageChange: this.handlePageChange,
-        activePage: this.props.activePage
+        activePage: this.state.activePage
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         to: "/createTask"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -77781,10 +77766,8 @@ var taskReducerDefaultState = {
   orderDescription: '',
   tasks: [],
   filtered_tasks: [],
-  pagination_tasks: [],
   itemList: [],
-  freightCompany: 'AuExpress',
-  activePage: null
+  freightCompany: 'AuExpress'
 };
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : taskReducerDefaultState;
@@ -77794,24 +77777,8 @@ var taskReducerDefaultState = {
     case "FETCH_TASKS_AND_ITEMS_DATA":
       return Object.assign({}, state, {
         tasks: _toConsumableArray(action.tasks),
-        filtered_tasks: _toConsumableArray(action.tasks),
-        itemList: _toConsumableArray(action.itemList),
-        // combine the arrays into one array by using ES6 constructor method
-        activePage: 1
-      });
+        itemList: _toConsumableArray(action.itemList) // combine the arrays into one array by using ES6 constructor method
 
-    case "TASKS_FILTER":
-      return Object.assign({}, state, {
-        filtered_tasks: action.filtered_information.trim() === '' ? state.tasks : state.tasks.filter(function (task, index) {
-          var reg = new RegExp(action.filtered_information);
-          return task.customer_name.trim().match(reg) || task.trackingNumber.trim().match(reg) || task.description.trim().match(reg);
-        })
-      });
-
-    case "TASK_PAGINATION":
-      return Object.assign({}, state, {
-        pagination_tasks: state.filtered_tasks.slice((action.targeted_page - 1) * 3, action.targeted_page * 3),
-        activePage: action.targeted_page
       });
 
     case "CREATE_NEWTASK_SUCCESSFUL":

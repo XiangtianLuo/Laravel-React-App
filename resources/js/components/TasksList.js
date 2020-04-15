@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 const TasksList =(props)=> (
-  props.tasks.map(task => (
+    props.tasks?props.tasks.slice((props.targeted_page-1)*3 , props.targeted_page*3).map(task => ( //carry out magination here in lower component
     <div key={task.id} className='media'>
         <div className='media-body'> 
             <div className='bor'>
@@ -15,7 +15,7 @@ const TasksList =(props)=> (
             </div>
         </div>
     </div>
-))
+)):[]
 )
 
 export default TasksList

@@ -6,13 +6,9 @@ import TasksFilter from './TasksFilter';
 import CreateTask from './CreateTask';
 import PaginationPage from './Pagination';
 
-
 const mapStateToProps = (state) =>{
   return {
       tasks: [...state.tasks],
-      filtered_tasks: [...state.filtered_tasks],
-      pagination_tasks:[...state.pagination_tasks],
-      activePage: state.activePage
   }
 }
 
@@ -20,32 +16,47 @@ class TasksPage extends Component {//This component will fetch the data and dump
   constructor(props){
       super(props);
       this.state = {
-          tasks:[...this.props.tasks],
-          activePage: this.props.activePage
+          activePage: 1,
+          filtered_tasks:[]
       }
       this.initialization = this.initialization.bind(this);
       this.handleDelete = this.handleDelete.bind(this);
       this.handlePageChange = this.handlePageChange.bind(this);
+      this.onTextchange = this.onTextchange.bind(this);
   }
 
   initialization() {
       const { dispatch } = this.props;
+      let ok = dispatch({ type: 'FETCH_TASKS_ITEMS_DATA'});
       dispatch({ type: 'FETCH_TASKS_ITEMS_DATA'});
+      console.log(ok)
+      
   }
 
-  handleDelete(id) {
+  handleDelete(id) { //after handle delete method need to re-oriented to the 1st page
     const { dispatch } = this.props;
     dispatch({ 
       type: 'DELETE_TASK',
       Deleted_id: id
     })
+    this.setState({
+      activePage:1,
+    })
+  }
+
+  onTextchange(Text){
+    this.setState({
+      filtered_tasks: Text.target.value.trim() === ''?this.props.tasks:this.props.tasks.filter((task,index)=>{
+        let reg = new RegExp(Text.target.value)
+        return  task.customer_name.trim().match(reg) ||  task.trackingNumber.trim().match(reg) || task.description.trim().match(reg);
+      }),
+      activePage:1
+    })
   }
 
   handlePageChange(pageNumber) {
-    const { dispatch } = this.props;
-    dispatch({
-      type:'TASK_PAGINATION',
-      targeted_page: pageNumber,
+    this.setState({
+      activePage:pageNumber
     })
   }
 
@@ -69,33 +80,26 @@ class TasksPage extends Component {//This component will fetch the data and dump
     })
   }
 
-  shouldComponentUpdate(NextProps, NextState){
-    return NextProps.activePage !=  this.props.activePage || JSON.stringify(NextProps.filtered_tasks) != JSON.stringify(this.props.filtered_tasks)||JSON.stringify(NextProps.pagination_tasks) != JSON.stringify(this.props.pagination_tasks)
-  }//if without JSON.stringfy to compare 2 arrays, the componentDidUpdate will get into the endless loop due to the constant "false" value of arrayA == arrayB
-
-  componentDidUpdate(){
-    this.handlePageChange(this.props.activePage) //This part is very important, since it will always call function: handlePageChange to get the new pagination 
-  }
-
-  componentDidMount() {
+  componentWillMount() {
     this.initialization();
   }
 
   render() {
+      const display_tasks = this.state.filtered_tasks == false? this.props.tasks: this.state.filtered_tasks
       return (
         <div className="col-md-10 text-center">
           <div className="card text-left"> 
-              <TasksFilter /> 
+              <TasksFilter onchange={this.onTextchange}/>
               <div className="card-body bg-light">
-                <TasksList handleDelete={this.handleDelete} tasks={this.props.pagination_tasks} />
+                <TasksList targeted_page={this.state.activePage} handleDelete={this.handleDelete} tasks={display_tasks} />
               </div>
           </div>
-          <PaginationPage totalItemsCount={this.props.filtered_tasks.length} handlePageChange={this.handlePageChange} activePage={this.props.activePage}/>
+          <PaginationPage totalItemsCount={display_tasks.length} handlePageChange={this.handlePageChange} activePage={this.state.activePage}/>
           <Link to={`/createTask`} > 
-          <button className='btn-primary mt-2 rounded'>
-            建立新订单 
-          </button>
-        </Link>
+            <button className='btn-primary mt-2 rounded'>
+              建立新订单 
+            </button>
+          </Link>
         </div>
       );
   }

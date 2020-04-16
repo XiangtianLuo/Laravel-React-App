@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import SpecialButton from './SpecialButton'
 
 const mapStateToProps = (state) =>{
     return {
@@ -24,6 +25,9 @@ class TaskForm extends Component {
             itemList:[...this.props.itemList],
             item_quantity:0,
             item_name:'',
+            isCreatesButton_Disabled:true,
+            isConfirmButton_Disabled:true,
+            isQuantitySelect_Disabled:true
         }
         this.handleChange = this.handleChange.bind(this);
         this.initialization = this.initialization.bind(this);
@@ -31,7 +35,7 @@ class TaskForm extends Component {
         this.renderItems= this.renderItems.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     } 
-    
+
     handleItemSubmit(){
         this.setState({
             orderDescription: [...this.state.orderDescription, {name:this.state.item_name, quantity: this.state.item_quantity}],//continue to add the new item_name and item-quantity to the order_description Array
@@ -40,7 +44,8 @@ class TaskForm extends Component {
                     description =  description + i.name + '*' + i.quantity + ' '
                 })
                 return description;
-            })()
+            })(),
+            isCreatesButton_Disabled: false
         })
     }
 
@@ -96,11 +101,13 @@ class TaskForm extends Component {
             break;          
             case "item_name":
                 this.setState({
+                        isQuantitySelect_Disabled:false,
                         item_name:target.value
                     })
             break;         
             case "item_quantity":
                 this.setState({
+                        isConfirmButton_Disabled:false,
                         item_quantity:parseInt(target.value)
                     })
             break;
@@ -146,11 +153,10 @@ class TaskForm extends Component {
                                             <div className='row' >
                                                 <div className='col-6 col align-self-center'>
                                                     <div className='row' >
-                                                        <select onChange={this.handleChange} className='col-5' name="item_name">
+                                                        <select onChange={this.handleChange} className='col-5' name="item_name">    
                                                             {this.renderItems()}
                                                         </select>
-                                                        <select onChange={this.handleChange} className='col-5 ml-1' name="item_quantity">
-                                                            <option > 数量 </option>
+                                                        <select disabled={this.state.isQuantitySelect_Disabled} onChange={this.handleChange} className='col-5 ml-1' name="item_quantity">
                                                             <option value={1}>1</option>
                                                             <option value={2}>2</option>
                                                             <option value={3}>3</option>
@@ -163,17 +169,17 @@ class TaskForm extends Component {
 
                                                 <div className='col-6 no-gutters'>
                                                     <div className= 'row justify-content-end'>
-                                                        <button onClick={this.handleItemSubmit} type='submit' className='btn btn-sm btn-success col-4'> Confirm </button>
+                                                        <button onClick={this.handleItemSubmit} type='submit' className='btn btn-sm btn-success col-4' disabled={this.state.isConfirmButton_Disabled}> Confirm </button>
                                                     </div>    
                                                 </div>
                                             </div>
                                         </div>
 
                                         <textarea 
+                                        readOnly
                                         className='form-control mt-2 mb-2' 
                                         row='5'// we use props directly
                                         placeholder='The discription about the order' 
-                                        required
                                         value={ ((description='')=>{
                                             this.state.orderDescription.forEach((i)=>{
                                                 description =  description + i.name + '*' + i.quantity + ' '
@@ -194,9 +200,7 @@ class TaskForm extends Component {
                                         name='freightCompany'
                                         />
                                     </div>
-                                    <button type='submit' className="btn btn-primary">
-                                        Create Task
-                                    </button>
+                                    <SpecialButton  type={'submit'} isButton_Disabled={this.state.isCreatesButton_Disabled}/>
                                 </form>
                                 <hr />
                             </div>

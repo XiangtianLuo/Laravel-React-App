@@ -27,7 +27,7 @@ class TaskController extends Controller
         $allItems = $item->select('name')->get();// just fetch the 'name' column from item model 
         //return response()->json($allItems);
         $allTasks = $task->whereIn('user_id', $request->user())->with('user');
-        $tasks = $allTasks->orderBy('created_at','desc')->take(20)->get();
+        $tasks = $allTasks->orderBy('created_at','desc')->take(500)->get();
         return response()->json([
             'tasks'=>$tasks,
             'itemList'=>$allItems

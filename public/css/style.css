@@ -1,0 +1,7 @@
+#canvas {
+  background-color:white;    
+  margin: 0;
+  overflow: hidden;
+  position: fixed;
+  opacity: 100;
+}

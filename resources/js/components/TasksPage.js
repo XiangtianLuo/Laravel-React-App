@@ -27,10 +27,7 @@ class TasksPage extends Component {//This component will fetch the data and dump
 
   initialization() {
       const { dispatch } = this.props;
-      let ok = dispatch({ type: 'FETCH_TASKS_ITEMS_DATA'});
       dispatch({ type: 'FETCH_TASKS_ITEMS_DATA'});
-      console.log(ok)
-      
   }
 
   handleDelete(id) { //after handle delete method need to re-oriented to the 1st page

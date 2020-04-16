@@ -76872,7 +76872,7 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 
 var CreateTask = function CreateTask(props) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskForm__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskForm__WEBPACK_IMPORTED_MODULE_2__["default"], {
     handleSubmit: function handleSubmit(task) {
       //by dumping the handleSubmit into the child component, the Taskform can be shared by Edit and Create Task
       var dispatch = props.dispatch;
@@ -76884,9 +76884,11 @@ var CreateTask = function CreateTask(props) {
         orderDescription_string: task.orderDescription_string,
         freightCompany: task.freightCompany
       });
-      props.history.push('/home');
+      setTimeout(function () {
+        return props.history.push('/home');
+      }, 2000);
     }
-  });
+  }));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps)(CreateTask));
@@ -76923,6 +76925,100 @@ var PaginationPage = function PaginationPage(props) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (PaginationPage);
+
+/***/ }),
+
+/***/ "./resources/js/components/SpecialButton.js":
+/*!**************************************************!*\
+  !*** ./resources/js/components/SpecialButton.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var SpecialButton = /*#__PURE__*/function (_Component) {
+  _inherits(SpecialButton, _Component);
+
+  var _super = _createSuper(SpecialButton);
+
+  //1. convert html into react component and then combine the external js to make stunning effect. 
+  function SpecialButton(props) {
+    _classCallCheck(this, SpecialButton);
+
+    return _super.call(this, props);
+  }
+
+  _createClass(SpecialButton, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var script = document.createElement("script");
+      script.id = 'button_effect';
+      script.src = "js/button_effect.js";
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      var remove_Targeted_Tag = document.getElementById('button_effect');
+      remove_Targeted_Tag.parentNode.removeChild(remove_Targeted_Tag);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("style", {
+        dangerouslySetInnerHTML: {
+          __html: "\n.button {\n  position: relative;\n display: flex;\n margin:auto; \n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  width: 12.5rem;\n  padding: 1.5rem 3.125rem;\n  background-color: #3498db;\n  border: none;\n  border-radius: 0.3125rem;\n  color: white;\n  font-weight: 300;\n  text-transform: uppercase;\n  overflow: hidden;\n}\n .button:disabled,\n .button[disabled]{ border: 1px solid #999999; background-color: #cccccc; color: #666666; }\n.button:before {\n  position: absolute;\n  content: '';\n  bottom: 0;\n  left: 0;\n  width: 0%;\n  height: 100%;\n  background-color: #54d98c;\n}\n.button span {\n  position: absolute;\n  line-height: 0;\n}\n.button span i {\n  transform-origin: center center;\n}\n.button span:nth-of-type(1) {\n  top: 50%;\n  transform: translateY(-50%);\n}\n.button span:nth-of-type(2) {\n  top: 100%;\n  transform: translateY(0%);\n  font-size: 24px;\n}\n.button span:nth-of-type(3) {\n  display: none;\n}\n\n.active {\n  background-color: #2ecc71;\n}\n.active:before {\n  width: 100%;\n  transition: width 1s linear;\n}\n.active span:nth-of-type(1) {\n  top: -100%;\n  transform: translateY(-50%);\n}\n.active span:nth-of-type(2) {\n  top: 50%;\n  transform: translateY(-50%);\n}\n.active span:nth-of-type(2) i {\n  animation: loading 500ms linear infinite;\n}\n.active span:nth-of-type(3) {\n  display: none;\n}\n\n.finished {\n  background-color: #54d98c;\n}\n.finished .submit {\n  display: none;\n}\n.finished .loading {\n  display: none;\n}\n.finished .check {\n  display: block !important;\n  font-size: 24px;\n  animation: scale 0.5s linear;\n}\n.finished .check i {\n  transform-origin: center center;\n}\n\n@keyframes loading {\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@keyframes scale {\n  0% {\n    transform: scale(10);\n  }\n  50% {\n    transform: scale(0.2);\n  }\n  70% {\n    transform: scale(1.2);\n  }\n  90% {\n    transform: scale(0.7);\n  }\n  100% {\n    transform: scale(1);\n  }\n}\n"
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "button",
+        type: this.props.type,
+        disabled: this.props.isButton_Disabled
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "submit"
+      }, "Create"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "loading"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fa fa-refresh"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "check"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fa fa-check"
+      }))));
+    }
+  }]);
+
+  return SpecialButton;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (SpecialButton);
 
 /***/ }),
 
@@ -77071,6 +77167,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _SpecialButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SpecialButton */ "./resources/js/components/SpecialButton.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -77108,6 +77205,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
+
 var mapStateToProps = function mapStateToProps(state) {
   return {
     customer_name: state.customer_name,
@@ -77139,7 +77237,10 @@ var TaskForm = /*#__PURE__*/function (_Component) {
       tasks: _toConsumableArray(_this.props.tasks),
       itemList: _toConsumableArray(_this.props.itemList),
       item_quantity: 0,
-      item_name: ''
+      item_name: '',
+      isCreatesButton_Disabled: true,
+      isConfirmButton_Disabled: true,
+      isQuantitySelect_Disabled: true
     };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.initialization = _this.initialization.bind(_assertThisInitialized(_this));
@@ -77168,7 +77269,8 @@ var TaskForm = /*#__PURE__*/function (_Component) {
           });
 
           return description;
-        }()
+        }(),
+        isCreatesButton_Disabled: false
       });
     }
   }, {
@@ -77242,12 +77344,14 @@ var TaskForm = /*#__PURE__*/function (_Component) {
 
         case "item_name":
           this.setState({
+            isQuantitySelect_Disabled: false,
             item_name: target.value
           });
           break;
 
         case "item_quantity":
           this.setState({
+            isConfirmButton_Disabled: false,
             item_quantity: parseInt(target.value)
           });
           break;
@@ -77314,10 +77418,11 @@ var TaskForm = /*#__PURE__*/function (_Component) {
         className: "col-5",
         name: "item_name"
       }, this.renderItems()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        disabled: this.state.isQuantitySelect_Disabled,
         onChange: this.handleChange,
         className: "col-5 ml-1",
         name: "item_quantity"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, " \u6570\u91CF "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: 1
       }, "1"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: 2
@@ -77336,13 +77441,14 @@ var TaskForm = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handleItemSubmit,
         type: "submit",
-        className: "btn btn-sm btn-success col-4"
+        className: "btn btn-sm btn-success col-4",
+        disabled: this.state.isConfirmButton_Disabled
       }, " Confirm "))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        readOnly: true,
         className: "form-control mt-2 mb-2",
         row: "5" // we use props directly
         ,
         placeholder: "The discription about the order",
-        required: true,
         value: function () {
           var description = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
@@ -77363,10 +77469,10 @@ var TaskForm = /*#__PURE__*/function (_Component) {
         required: true,
         maxLength: "255",
         name: "freightCompany"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        type: "submit",
-        className: "btn btn-primary"
-      }, "Create Task")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null))))));
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SpecialButton__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        type: 'submit',
+        isButton_Disabled: this.state.isCreatesButton_Disabled
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null))))));
     }
   }]);
 
@@ -77543,13 +77649,9 @@ var TasksPage = /*#__PURE__*/function (_Component) {
     key: "initialization",
     value: function initialization() {
       var dispatch = this.props.dispatch;
-      var ok = dispatch({
-        type: 'FETCH_TASKS_ITEMS_DATA'
-      });
       dispatch({
         type: 'FETCH_TASKS_ITEMS_DATA'
       });
-      console.log(ok);
     }
   }, {
     key: "handleDelete",

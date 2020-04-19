@@ -76887,11 +76887,135 @@ var CreateTask = function CreateTask(props) {
       setTimeout(function () {
         return props.history.push('/home');
       }, 2000);
-    }
+    },
+    create_flag: true
   }));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps)(CreateTask));
+
+/***/ }),
+
+/***/ "./resources/js/components/EditTask.js":
+/*!*********************************************!*\
+  !*** ./resources/js/components/EditTask.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _TaskForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TaskForm */ "./resources/js/components/TaskForm.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
+
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    tasks: _toConsumableArray(state.tasks)
+  };
+};
+
+var EditTask = /*#__PURE__*/function (_Component) {
+  _inherits(EditTask, _Component);
+
+  var _super = _createSuper(EditTask);
+
+  function EditTask(props) {
+    _classCallCheck(this, EditTask);
+
+    return _super.call(this, props);
+  }
+
+  _createClass(EditTask, [{
+    key: "getTargetedTask",
+    value: function getTargetedTask(Taskid) {
+      // find the current task by using 'find' method
+      var current_task = this.props.tasks.find(function (task) {
+        return task.id == Taskid;
+      });
+      var id = current_task.id,
+          customer_name = current_task.customer_name,
+          trackingNumber = current_task.trackingNumber,
+          description = current_task.description,
+          freightCompany = current_task.freightCompany;
+      return {
+        id: id,
+        customer_name: customer_name,
+        trackingNumber: trackingNumber,
+        description: description,
+        freightCompany: freightCompany
+      };
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      console.log(this.state);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaskForm__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        handleSubmit: function handleSubmit(task) {
+          //by dumping the handleSubmit into the child component, the Taskform can be shared by Edit and Create Task
+          var _props = props,
+              dispatch = _props.dispatch;
+          dispatch({
+            type: 'EDIT_TASK',
+            //需要修改并且简化操作
+            customer_name: task.customer_name,
+            trackingNumber: task.trackingNumber,
+            orderDescription: task.orderDescription,
+            orderDescription_string: task.orderDescription_string,
+            freightCompany: task.freightCompany
+          });
+          setTimeout(function () {
+            return props.history.push('/home');
+          }, 2000);
+        },
+        current_task: this.getTargetedTask(this.props.match.params.id) // pass down the current_task data to the child component
+
+      }));
+    }
+  }]);
+
+  return EditTask;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps)(EditTask));
 
 /***/ }),
 
@@ -77022,139 +77146,6 @@ var SpecialButton = /*#__PURE__*/function (_Component) {
 
 /***/ }),
 
-/***/ "./resources/js/components/TaskEdit.js":
-/*!*********************************************!*\
-  !*** ./resources/js/components/TaskEdit.js ***!
-  \*********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TaskEdit; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-
-
-var TaskEdit = /*#__PURE__*/function (_Component) {
-  _inherits(TaskEdit, _Component);
-
-  var _super = _createSuper(TaskEdit);
-
-  function TaskEdit(props) {
-    var _this;
-
-    _classCallCheck(this, TaskEdit);
-
-    _this = _super.call(this, props);
-    _this.state = {
-      name: '',
-      task: []
-    };
-    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
-    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-
-  _createClass(TaskEdit, [{
-    key: "handleChange",
-    value: function handleChange(e) {
-      this.setState({
-        name: e.target.value
-      });
-    }
-  }, {
-    key: "handleSubmit",
-    value: function handleSubmit(e) {
-      var _this2 = this;
-
-      e.preventDefault();
-      axios.put("/tasks/".concat(this.props.match.params.id), {
-        name: this.state.name
-      }).then(function (response) {
-        _this2.props.history.push('/');
-      });
-    }
-  }, {
-    key: "getTasks",
-    value: function getTasks() {
-      var _this3 = this;
-
-      axios.get("/tasks/".concat(this.props.match.params.id, "/edit")).then(function (response) {
-        return _this3.setState({
-          task: response.data.task,
-          name: response.data.task.name
-        });
-      });
-    }
-  }, {
-    key: "componentWillMount",
-    value: function componentWillMount() {
-      this.getTasks();
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row justify-content-center"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-8"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card-header"
-      }, "Edit Task"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card-body"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        onSubmit: this.handleSubmit
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
-        className: "form-control",
-        row: "5",
-        value: this.state.name,
-        placeholder: "Create a new task",
-        required: true,
-        maxLength: "255",
-        onChange: this.handleChange
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        type: "submit",
-        className: "btn btn-primary"
-      }, "Edit Task")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null))))));
-    }
-  }]);
-
-  return TaskEdit;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
-
-
-
-/***/ }),
-
 /***/ "./resources/js/components/TaskForm.js":
 /*!*********************************************!*\
   !*** ./resources/js/components/TaskForm.js ***!
@@ -77208,10 +77199,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    customer_name: state.customer_name,
-    trackingNumber: state.trackingNumber,
-    orderDescription: state.orderDescription,
-    tasks: _toConsumableArray(state.tasks),
     itemList: _toConsumableArray(state.itemList)
   };
 };
@@ -77227,23 +77214,24 @@ var TaskForm = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, TaskForm);
 
     _this = _super.call(this, props);
+    console.log('~~~~~~');
+    console.log(_this.props);
+    console.log('~~~~~~');
     _this.state = {
-      customer_name: _this.props.customer_name,
-      trackingNumber: _this.props.trackingNumber,
-      // Use the current state
-      orderDescription: [],
-      orderDescription_string: '',
-      freightCompany: _this.props.freightCompany,
-      tasks: _toConsumableArray(_this.props.tasks),
-      itemList: _toConsumableArray(_this.props.itemList),
-      item_quantity: 0,
-      item_name: '',
+      current_task_id: _this.props.current_task ? _this.props.current_task.id : null,
+      current_task_customerName: _this.props.current_task ? _this.props.current_task.customer_name : '',
+      current_task_trackNumber: _this.props.current_task ? _this.props.current_task.trackingNumber : '',
+      current_task_orderDescription_string: _this.props.current_task ? _this.props.current_task.description : '',
+      current_task_FreightCompany: _this.props.current_task ? _this.props.current_task.freightCompany : '',
+      current_task_orderDescription: [],
       isCreatesButton_Disabled: true,
+      isButton_Disabled: true,
       isConfirmButton_Disabled: true,
-      isQuantitySelect_Disabled: true
+      isQuantitySelect_Disabled: true,
+      item_name: '',
+      item_quantity: 0
     };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
-    _this.initialization = _this.initialization.bind(_assertThisInitialized(_this));
     _this.handleItemSubmit = _this.handleItemSubmit.bind(_assertThisInitialized(_this));
     _this.renderItems = _this.renderItems.bind(_assertThisInitialized(_this));
     _this.onSubmit = _this.onSubmit.bind(_assertThisInitialized(_this));
@@ -77256,60 +77244,37 @@ var TaskForm = /*#__PURE__*/function (_Component) {
       var _this2 = this;
 
       this.setState({
-        orderDescription: [].concat(_toConsumableArray(this.state.orderDescription), [{
+        current_task_orderDescription: [].concat(_toConsumableArray(this.state.current_task_orderDescription), [{
           name: this.state.item_name,
           quantity: this.state.item_quantity
         }]),
         //continue to add the new item_name and item-quantity to the order_description Array
-        orderDescription_string: function () {
-          var description = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-          _this2.state.orderDescription.forEach(function (i) {
-            description = description + i.name + '*' + i.quantity + ' ';
-          });
-
-          return description;
-        }(),
         isCreatesButton_Disabled: false
+      }, function () {
+        _this2.setState({
+          current_task_orderDescription_string: function () {
+            var description = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+            _this2.state.current_task_orderDescription.forEach(function (i) {
+              description = description + i.name + '*' + i.quantity + ' ';
+            });
+
+            return description;
+          }()
+        });
       });
     }
   }, {
     key: "onSubmit",
     value: function onSubmit(e) {
-      var _this3 = this;
-
       e.preventDefault();
-
-      var orderDescription_string = function () {
-        var description = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-        _this3.state.orderDescription.forEach(function (i) {
-          description = description + i.name + '*' + i.quantity + ' ';
-        });
-
-        return description;
-      }();
-
       this.props.handleSubmit({
-        customer_name: this.state.customer_name,
-        trackingNumber: this.state.trackingNumber,
-        orderDescription: this.state.orderDescription,
-        orderDescription_string: orderDescription_string,
-        freightCompany: this.state.freightCompany
+        customer_name: this.state.current_task_customerName,
+        trackingNumber: this.state.current_task_trackNumber,
+        orderDescription: this.state.current_task_orderDescription,
+        orderDescription_string: this.state.current_task_orderDescription_string,
+        freightCompany: this.state.current_task_FreightCompany
       });
-    }
-  }, {
-    key: "initialization",
-    value: function initialization() {
-      var dispatch = this.props.dispatch;
-      dispatch({
-        type: 'FETCH_TASKS_ITEMS_DATA'
-      });
-    }
-  }, {
-    key: "componentWillMount",
-    value: function componentWillMount() {
-      this.initialization();
     }
   }, {
     key: "handleChange",
@@ -77320,25 +77285,19 @@ var TaskForm = /*#__PURE__*/function (_Component) {
       switch (target.name) {
         case "customer_name":
           this.setState({
-            customer_name: target.value
+            current_task_customerName: target.value
           });
           break;
 
         case "trackingNumber":
           this.setState({
-            trackingNumber: target.value
-          });
-          break;
-
-        case "orderDescription":
-          this.setState({
-            orderDescription: target.value
+            current_task_trackNumber: target.value
           });
           break;
 
         case "freightCompany":
           this.setState({
-            freightCompany: target.value
+            current_task_FreightCompany: target.value
           });
           break;
 
@@ -77370,8 +77329,6 @@ var TaskForm = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
-
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -77391,8 +77348,8 @@ var TaskForm = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
         className: "form-control mb-2",
         row: "5",
-        onChange: this.handleChange //value={this.props.trackingNumber} // we use props directly
-        ,
+        onChange: this.handleChange,
+        value: this.state.current_task_customerName,
         placeholder: "Enter the customer name",
         required: true,
         maxLength: "255",
@@ -77400,6 +77357,7 @@ var TaskForm = /*#__PURE__*/function (_Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
         className: "form-control mb-2",
         row: "5",
+        value: this.state.current_task_trackNumber,
         onChange: this.handleChange,
         placeholder: "Enter the TrackingNumber",
         required: true,
@@ -77449,21 +77407,14 @@ var TaskForm = /*#__PURE__*/function (_Component) {
         row: "5" // we use props directly
         ,
         placeholder: "The discription about the order",
-        value: function () {
-          var description = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-          _this4.state.orderDescription.forEach(function (i) {
-            description = description + i.name + '*' + i.quantity + ' ';
-          });
-
-          return description;
-        }(),
+        value: this.state.current_task_orderDescription_string,
         maxLength: "255",
         name: "orderDescription",
         onChange: this.handleChange
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
         className: "form-control",
         row: "5",
+        value: this.state.current_task_FreightCompany,
         onChange: this.handleChange,
         placeholder: "Please choose the freight company",
         required: true,
@@ -77546,9 +77497,11 @@ var TasksList = function TasksList(props) {
           return props.handleDelete(task.id);
         },
         className: "btn-outline-danger btn-sm float-right"
-      }, " \u5220\u9664 "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, " \u5220\u9664 "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/".concat(task.id, "/edit")
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn-outline-info btn-sm float-right mr-1"
-      }, " \u4FEE\u6539 "))))
+      }, "\u4FEE\u6539")))))
     );
   }) : [];
 };
@@ -77572,8 +77525,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _TasksList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TasksList */ "./resources/js/components/TasksList.js");
 /* harmony import */ var _TasksFilter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TasksFilter */ "./resources/js/components/TasksFilter.js");
-/* harmony import */ var _CreateTask__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./CreateTask */ "./resources/js/components/CreateTask.js");
-/* harmony import */ var _Pagination__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Pagination */ "./resources/js/components/Pagination.js");
+/* harmony import */ var _Pagination__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Pagination */ "./resources/js/components/Pagination.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -77615,10 +77567,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
-
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    tasks: _toConsumableArray(state.tasks)
+    tasks: _toConsumableArray(state.tasks),
+    customer_name: state.customer_name,
+    trackingNumber: state.trackingNumber,
+    orderDescription: state.orderDescription,
+    freightCompany: state.freightCompany
   };
 };
 
@@ -77730,9 +77685,10 @@ var TasksPage = /*#__PURE__*/function (_Component) {
         className: "card-body bg-light"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TasksList__WEBPACK_IMPORTED_MODULE_3__["default"], {
         targeted_page: this.state.activePage,
+        handleEdit: this.handleEdit,
         handleDelete: this.handleDelete,
         tasks: display_tasks
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Pagination__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Pagination__WEBPACK_IMPORTED_MODULE_5__["default"], {
         totalItemsCount: display_tasks.length,
         handlePageChange: this.handlePageChange,
         activePage: this.state.activePage
@@ -77799,7 +77755,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/App */ "./resources/js/components/App.js");
 /* harmony import */ var _components_Temp_App__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Temp_App */ "./resources/js/components/Temp_App.js");
-/* harmony import */ var _components_TaskEdit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/TaskEdit */ "./resources/js/components/TaskEdit.js");
+/* harmony import */ var _components_EditTask__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/EditTask */ "./resources/js/components/EditTask.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
@@ -77807,7 +77763,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux_saga__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! redux-saga */ "./node_modules/redux-saga/dist/redux-saga-core-npm-proxy.esm.js");
 /* harmony import */ var _sagas_taskSaga__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./sagas/taskSaga */ "./resources/js/sagas/taskSaga.js");
 /* harmony import */ var _components_CreateTask__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/CreateTask */ "./resources/js/components/CreateTask.js");
-/* harmony import */ var _components_Pagination__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/Pagination */ "./resources/js/components/Pagination.js");
 
 
 
@@ -77815,7 +77770,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
  //import { changeMind } from './actions/changTaskName'; about to abandon this action due to the size of the project
-
 
 
 
@@ -77832,6 +77786,10 @@ if (document.getElementById('root')) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Route"], {
     path: "/createTask",
     component: _components_CreateTask__WEBPACK_IMPORTED_MODULE_11__["default"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Route"], {
+    exact: true,
+    path: "/:id/edit",
+    component: _components_EditTask__WEBPACK_IMPORTED_MODULE_4__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Route"], {
     exact: true,
     path: "/home",
@@ -77863,13 +77821,15 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 var taskReducerDefaultState = {
+  create_flag: false,
+  current_task_id: '',
   customer_name: '',
   trackingNumber: '',
   orderDescription: '',
   tasks: [],
   filtered_tasks: [],
   itemList: [],
-  freightCompany: 'AuExpress'
+  freightCompany: ''
 };
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : taskReducerDefaultState;
@@ -77901,6 +77861,14 @@ var taskReducerDefaultState = {
         })
       });
 
+    case 'UPDATE_CURRENT_TASK':
+      return Object.assign({}, state, {
+        customer_name: action.payload.customer_name,
+        trackingNumber: action.payload.trackingNumber,
+        orderDescription: action.payload.description,
+        freightCompany: action.payload.freightCompany
+      });
+
     default:
       return state;
   }
@@ -77926,10 +77894,12 @@ __webpack_require__.r(__webpack_exports__);
 var _marked = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(fetch_Tasks_Items_Data),
     _marked2 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(create_newTask),
     _marked3 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(delete_task),
-    _marked4 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchCreateNewTask),
-    _marked5 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchDeleteTask),
-    _marked6 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchFetchTaskAndItemsData),
-    _marked7 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(rootSaga);
+    _marked4 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(edit_task),
+    _marked5 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchEditTask),
+    _marked6 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchCreateNewTask),
+    _marked7 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchDeleteTask),
+    _marked8 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(watchFetchTaskAndItemsData),
+    _marked9 = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(rootSaga);
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -78054,15 +78024,33 @@ function delete_task(action) {
   }, _marked3);
 }
 
-function watchCreateNewTask() {
-  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchCreateNewTask$(_context4) {
+function edit_task(action) {
+  var response;
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function edit_task$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.next = 2;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('CREATE_NEWTASK', create_newTask);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(function () {
+            return axios.get("/tasks/".concat(action.Edited_id, "/edit"));
+          });
 
         case 2:
+          response = _context4.sent;
+          console.log(response);
+
+          if (!(response.status === 200)) {
+            _context4.next = 7;
+            break;
+          }
+
+          _context4.next = 7;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+            type: 'UPDATE_CURRENT_TASK',
+            payload: response.data.task
+          });
+
+        case 7:
         case "end":
           return _context4.stop();
       }
@@ -78070,13 +78058,13 @@ function watchCreateNewTask() {
   }, _marked4);
 }
 
-function watchDeleteTask() {
-  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchDeleteTask$(_context5) {
+function watchEditTask() {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchEditTask$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.next = 2;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('DELETE_TASK', delete_task);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('EDIT_TASK', edit_task);
 
         case 2:
         case "end":
@@ -78086,13 +78074,13 @@ function watchDeleteTask() {
   }, _marked5);
 }
 
-function watchFetchTaskAndItemsData() {
-  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchFetchTaskAndItemsData$(_context6) {
+function watchCreateNewTask() {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchCreateNewTask$(_context6) {
     while (1) {
       switch (_context6.prev = _context6.next) {
         case 0:
           _context6.next = 2;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('FETCH_TASKS_ITEMS_DATA', fetch_Tasks_Items_Data);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('CREATE_NEWTASK', create_newTask);
 
         case 2:
         case "end":
@@ -78102,13 +78090,13 @@ function watchFetchTaskAndItemsData() {
   }, _marked6);
 }
 
-function rootSaga() {
-  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function rootSaga$(_context7) {
+function watchDeleteTask() {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchDeleteTask$(_context7) {
     while (1) {
       switch (_context7.prev = _context7.next) {
         case 0:
           _context7.next = 2;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([watchFetchTaskAndItemsData(), watchCreateNewTask(), watchDeleteTask()]);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('DELETE_TASK', delete_task);
 
         case 2:
         case "end":
@@ -78116,6 +78104,38 @@ function rootSaga() {
       }
     }
   }, _marked7);
+}
+
+function watchFetchTaskAndItemsData() {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function watchFetchTaskAndItemsData$(_context8) {
+    while (1) {
+      switch (_context8.prev = _context8.next) {
+        case 0:
+          _context8.next = 2;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('FETCH_TASKS_ITEMS_DATA', fetch_Tasks_Items_Data);
+
+        case 2:
+        case "end":
+          return _context8.stop();
+      }
+    }
+  }, _marked8);
+}
+
+function rootSaga() {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function rootSaga$(_context9) {
+    while (1) {
+      switch (_context9.prev = _context9.next) {
+        case 0:
+          _context9.next = 2;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["all"])([watchFetchTaskAndItemsData(), watchCreateNewTask(), watchDeleteTask(), watchEditTask()]);
+
+        case 2:
+        case "end":
+          return _context9.stop();
+      }
+    }
+  }, _marked9);
 }
 
 /***/ }),

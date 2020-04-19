@@ -24,8 +24,7 @@ const CreateTask = (props)=> {
         freightCompany: task.freightCompany
     })
     setTimeout(()=>props.history.push('/home'),2000)
-    
-  }}/>
+  }} create_flag = {true} />
   </div>
 }
 

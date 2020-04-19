@@ -40,6 +40,21 @@ function* delete_task(action){
   }
 }
 
+function* edit_task(action){
+  const response = yield call(()=> axios.get(`/tasks/${action.Edited_id}/edit`));
+  console.log(response)
+  if(response.status === 200){// waite for more info
+    yield put({
+      type:'UPDATE_CURRENT_TASK',
+      payload: response.data.task
+    })
+  }
+}
+
+function* watchEditTask() {
+  yield takeEvery('EDIT_TASK', edit_task)
+}
+
 function* watchCreateNewTask() {
   yield takeEvery('CREATE_NEWTASK', create_newTask)
 }
@@ -56,6 +71,7 @@ export default function* rootSaga() {
   yield all([
     watchFetchTaskAndItemsData(),
     watchCreateNewTask(),
-    watchDeleteTask()
+    watchDeleteTask(),
+    watchEditTask()
   ])
 }

@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import TasksList from './TasksList';
 import TasksFilter from './TasksFilter';
-import CreateTask from './CreateTask';
 import PaginationPage from './Pagination';
 
 const mapStateToProps = (state) =>{
   return {
       tasks: [...state.tasks],
+      customer_name: state.customer_name,
+      trackingNumber: state.trackingNumber,
+      orderDescription: state.orderDescription,
+      freightCompany:state.freightCompany
   }
 }
 
@@ -88,7 +91,7 @@ class TasksPage extends Component {//This component will fetch the data and dump
           <div className="card text-left"> 
               <TasksFilter onchange={this.onTextchange}/>
               <div className="card-body bg-light">
-                <TasksList targeted_page={this.state.activePage} handleDelete={this.handleDelete} tasks={display_tasks} />
+                <TasksList targeted_page={this.state.activePage} handleEdit={this.handleEdit} handleDelete={this.handleDelete} tasks={display_tasks} />
               </div>
           </div>
           <PaginationPage totalItemsCount={display_tasks.length} handlePageChange={this.handlePageChange} activePage={this.state.activePage}/>

@@ -4,76 +4,61 @@ import SpecialButton from './SpecialButton'
 
 const mapStateToProps = (state) =>{
     return {
-        customer_name:state.customer_name,
-        trackingNumber:state.trackingNumber,
-        orderDescription:state.orderDescription,
-        tasks: [...state.tasks],
-        itemList:[...state.itemList]
+        itemList:[...state.itemList],
     }
 }
 
 class TaskForm extends Component {
     constructor(props){
         super(props);
+        console.log('~~~~~~')
+        console.log(this.props)
+        console.log('~~~~~~')
         this.state = {
-            customer_name: this.props.customer_name,
-            trackingNumber:this.props.trackingNumber, // Use the current state
-            orderDescription: [],
-            orderDescription_string:'',
-            freightCompany: this.props.freightCompany,
-            tasks:[...this.props.tasks],
-            itemList:[...this.props.itemList],
-            item_quantity:0,
-            item_name:'',
+            current_task_id: this.props.current_task?this.props.current_task.id:null,
+            current_task_customerName: this.props.current_task?this.props.current_task.customer_name:'',
+            current_task_trackNumber: this.props.current_task?this.props.current_task.trackingNumber:'',
+            current_task_orderDescription_string: this.props.current_task?this.props.current_task.description:'',
+            current_task_FreightCompany: this.props.current_task?this.props.current_task.freightCompany:'',
+            current_task_orderDescription:[],
             isCreatesButton_Disabled:true,
+            isButton_Disabled:true,
             isConfirmButton_Disabled:true,
-            isQuantitySelect_Disabled:true
+            isQuantitySelect_Disabled:true,
+            item_name:'',
+            item_quantity:0,
         }
         this.handleChange = this.handleChange.bind(this);
-        this.initialization = this.initialization.bind(this);
         this.handleItemSubmit = this.handleItemSubmit.bind(this);
         this.renderItems= this.renderItems.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-    } 
+    }
 
     handleItemSubmit(){
         this.setState({
-            orderDescription: [...this.state.orderDescription, {name:this.state.item_name, quantity: this.state.item_quantity}],//continue to add the new item_name and item-quantity to the order_description Array
-            orderDescription_string: ((description='')=>{
-                this.state.orderDescription.forEach((i)=>{
-                    description =  description + i.name + '*' + i.quantity + ' '
-                })
-                return description;
-            })(),
+            current_task_orderDescription: [...this.state.current_task_orderDescription, {name:this.state.item_name, quantity: this.state.item_quantity}],//continue to add the new item_name and item-quantity to the order_description Array
             isCreatesButton_Disabled: false
+        },()=>{
+            this.setState({
+                current_task_orderDescription_string: ((description='')=>{
+                    this.state.current_task_orderDescription.forEach((i)=>{
+                        description =  description + i.name + '*' + i.quantity + ' '
+                    })
+                    return description;
+                })(),
+            })
         })
     }
 
     onSubmit(e){
         e.preventDefault();
-        let orderDescription_string = ((description='')=>{
-            this.state.orderDescription.forEach((i)=>{
-                description =  description + i.name + '*' + i.quantity + ' '
-            })
-            return description;
-        })();
-        
         this.props.handleSubmit({ 
-            customer_name: this.state.customer_name,
-            trackingNumber: this.state.trackingNumber, 
-            orderDescription:this.state.orderDescription,
-            orderDescription_string:orderDescription_string,
-            freightCompany: this.state.freightCompany
+            customer_name: this.state.current_task_customerName,
+            trackingNumber: this.state.current_task_trackNumber, 
+            orderDescription:this.state.current_task_orderDescription,
+            orderDescription_string:this.state.current_task_orderDescription_string,
+            freightCompany: this.state.current_task_FreightCompany
         });
-    }
-
-    initialization() {
-        const { dispatch } = this.props;
-        dispatch({ type: 'FETCH_TASKS_ITEMS_DATA'}); 
-    }
-
-    componentWillMount(){
-        this.initialization();
     }
 
     handleChange(e){ // according to the react doc, the way to handle mutuple inputs, altough it is shit. 
@@ -81,22 +66,17 @@ class TaskForm extends Component {
         switch (target.name){
             case "customer_name": 
             this.setState({
-                    customer_name: target.value
+                current_task_customerName: target.value
             })
             break;
             case "trackingNumber": 
                 this.setState({
-                    trackingNumber: target.value
+                current_task_trackNumber: target.value
             })
-            break;
-            case "orderDescription":
-                this.setState({
-                    orderDescription:target.value
-                })
             break;
             case "freightCompany": 
                 this.setState({
-                    freightCompany: target.value
+                current_task_FreightCompany: target.value
              })
             break;          
             case "item_name":
@@ -134,7 +114,7 @@ class TaskForm extends Component {
                                         className='form-control mb-2' 
                                         row='5'
                                         onChange = {this.handleChange}
-                                        //value={this.props.trackingNumber} // we use props directly
+                                        value={this.state.current_task_customerName}
                                         placeholder='Enter the customer name' 
                                         required
                                         maxLength = '255'
@@ -143,6 +123,7 @@ class TaskForm extends Component {
                                         <textarea 
                                         className='form-control mb-2' 
                                         row='5'
+                                        value={this.state.current_task_trackNumber}
                                         onChange = {this.handleChange}
                                         placeholder='Enter the TrackingNumber' 
                                         required
@@ -180,12 +161,7 @@ class TaskForm extends Component {
                                         className='form-control mt-2 mb-2' 
                                         row='5'// we use props directly
                                         placeholder='The discription about the order' 
-                                        value={ ((description='')=>{
-                                            this.state.orderDescription.forEach((i)=>{
-                                                description =  description + i.name + '*' + i.quantity + ' '
-                                            })
-                                            return description;
-                                        })()}
+                                        value={this.state.current_task_orderDescription_string}
                                         maxLength = '255'
                                         name='orderDescription'
                                         onChange = {this.handleChange}
@@ -193,6 +169,7 @@ class TaskForm extends Component {
                                         <textarea 
                                         className='form-control' 
                                         row='5'
+                                        value={this.state.current_task_FreightCompany}
                                         onChange = {this.handleChange}
                                         placeholder='Please choose the freight company' 
                                         required

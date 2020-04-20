@@ -5,7 +5,7 @@ const PaginationPage =(props)=>(
     <div>
     <Pagination
       activePage={props.activePage}
-      itemsCountPerPage={3}
+      itemsCountPerPage={8}
       totalItemsCount={props.totalItemsCount} //props.tasks.length
       pageRangeDisplayed={5}
       onChange={props.handlePageChange}

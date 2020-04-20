@@ -1,4 +1,4 @@
-const taskReducerDefaultState = { create_flag:false, current_task_id:'', customer_name:'', trackingNumber:'', orderDescription:'', tasks:[],filtered_tasks:[], itemList:[], freightCompany:''};
+const taskReducerDefaultState = { filtered_tasks:[], tasks:[],itemList:[] };
 
 export default ( state = taskReducerDefaultState, action )=>{
   switch(action.type){
@@ -23,9 +23,12 @@ export default ( state = taskReducerDefaultState, action )=>{
                 return filtered_task.id !== action.Deleted_id
               })
           })
-          case 'UPDATE_CURRENT_TASK':
-            return Object.assign({}, state, { 
-              customer_name: action.payload.customer_name,
+          case 'UPDATE_CURRENT_TASK'://
+            let edited_task = state.tasks.find( task => task.id == action.payload.id)
+            console.log(edited_task);
+            console.log(action.payload)
+            return Object.assign({}, edited_task, { 
+              edited_taskcustomer_name: action.payload.customer_name,
               trackingNumber: action.payload.trackingNumber,
               orderDescription: action.payload.description,
               freightCompany:action.payload.freightCompany

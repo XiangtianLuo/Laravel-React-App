@@ -4,14 +4,11 @@ import { connect } from 'react-redux';
 import TasksList from './TasksList';
 import TasksFilter from './TasksFilter';
 import PaginationPage from './Pagination';
+import DataChart from './DataChart';
 
 const mapStateToProps = (state) =>{
   return {
       tasks: [...state.tasks],
-      customer_name: state.customer_name,
-      trackingNumber: state.trackingNumber,
-      orderDescription: state.orderDescription,
-      freightCompany:state.freightCompany
   }
 }
 
@@ -82,16 +79,35 @@ class TasksPage extends Component {//This component will fetch the data and dump
 
   componentWillMount() {
     this.initialization();
+    axios.post()
   }
 
   render() {
       const display_tasks = this.state.filtered_tasks == false? this.props.tasks: this.state.filtered_tasks
       return (
         <div className="col-md-10 text-center">
-          <div className="card text-left"> 
+          <Link to={`/dataChart`}> 
+          <button className='btn-danger mt-2 rounded'>
+            查看数据统计 
+          </button>
+          </Link>
+          <div className="card text-left mt-2"> 
               <TasksFilter onchange={this.onTextchange}/>
               <div className="card-body bg-light">
-                <TasksList targeted_page={this.state.activePage} handleEdit={this.handleEdit} handleDelete={this.handleDelete} tasks={display_tasks} />
+              <table className="table table-striped border">
+                <thead className="thead-dark">
+                  <tr>
+                    <th scope="col">收件人</th>
+                    <th scope="col">订单号</th>
+                    <th scope="col">订单详情</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <TasksList targeted_page={this.state.activePage} handleEdit={this.handleEdit} handleDelete={this.handleDelete} tasks={display_tasks} />
+                </tbody>
+              </table>
               </div>
           </div>
           <PaginationPage totalItemsCount={display_tasks.length} handlePageChange={this.handlePageChange} activePage={this.state.activePage}/>

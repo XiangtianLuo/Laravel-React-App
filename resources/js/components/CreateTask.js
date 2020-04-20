@@ -4,27 +4,23 @@ import TaskForm from './TaskForm';
 
 const mapStateToProps = (state) =>{
   return {
-      customer_name: state.customer_name,
-      trackingNumber:state.trackingNumber,
-      orderDescription:state.orderDescription,
-      tasks: [...state.tasks],
-      itemList:[...state.itemList],
   }
 }
 
 const CreateTask = (props)=> {
   return <div><TaskForm handleSubmit={(task)=>{ //by dumping the handleSubmit into the child component, the Taskform can be shared by Edit and Create Task
     const { dispatch } = props;
+    const { customer_name, trackingNumber, orderDescription, orderDescription_string, freightCompany } = task
     dispatch ({ 
         type: 'CREATE_NEWTASK',
-        customer_name: task.customer_name,
-        trackingNumber: task.trackingNumber, 
-        orderDescription:task.orderDescription,
-        orderDescription_string:task.orderDescription_string,
-        freightCompany: task.freightCompany
+        customer_name,
+        trackingNumber, 
+        orderDescription,
+        orderDescription_string,
+        freightCompany
     })
     setTimeout(()=>props.history.push('/home'),2000)
-  }} create_flag = {true} />
+  }}/>
   </div>
 }
 

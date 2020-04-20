@@ -11,6 +11,6 @@ class Task extends Model
         return $this->belongsTo(User::class);
     }
     public function items() {
-        return $this->belongsToMany(Item::class)->withPivot('quantity');
+        return $this->belongsToMany(Item::class)->withTimestamps()->withPivot('quantity');
     }
 }

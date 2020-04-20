@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
 import Temp_App from './components/Temp_App'
 import EditTask from './components/EditTask'
 import {BrowserRouter, Switch, Route, Link, Router} from 'react-router-dom';
 import { Provider } from 'react-redux';
+import DataChart from './components/DataChart'
 //import { changeMind } from './actions/changTaskName'; about to abandon this action due to the size of the project
 import { createStore, applyMiddleware} from 'redux';
 import taskReducer from './reducers/taskChange';
@@ -23,6 +23,7 @@ if (document.getElementById('root')) {
             <div>
                 <Switch>
                     <Provider store = {store}>
+                        <Route path="/dataChart" component={DataChart} />
                         <Route path="/createTask" component={CreateTask} />
                         <Route exact path="/:id/edit" component={EditTask} />
                         <Route exact path="/home" component={Temp_App} />

@@ -17,21 +17,24 @@ class TaskController extends Controller
 
     public function index(Request $request,Task $task, Item $item)
     {
-        //The following code indicates 
-        //$target_item = $item->find(1);
-        //$tasks = $target_item->tasks()->get();
-        //$totalNumber = 0;
-        //foreach( $target_item -> tasks as $task){
-        //   $totalNumber = $totalNumber + $task->pivot->quantity;
-        //}
-        $allItems = $item->select('name')->get();// just fetch the 'name' column from item model 
-        //return response()->json($allItems);
-        $allTasks = $task->whereIn('user_id', $request->user())->with('user');
-        $tasks = $allTasks->orderBy('created_at','desc')->take(500)->get();
-        return response()->json([
-            'tasks'=>$tasks,
-            'itemList'=>$allItems
-        ]);
+        if($request->get('targeted_item_name')){ // examine the GET request first and respond differently
+            $target_item_name = $request->get('targeted_item_name');
+            $target_item = $item->where('name',$target_item_name)->first();
+            $tasks = $target_item->tasks()->get();
+            return response()->json([
+                'tasks'=>$tasks,
+            ]);
+        }
+
+        else {
+            $allItems = $item->select('name')->get();// just fetch the 'name' column from item model 
+            $allTasks = $task->whereIn('user_id', $request->user())->with('user');
+            $tasks = $allTasks->orderBy('created_at','desc')->take(500)->get();
+            return response()->json([
+                'tasks'=>$tasks,
+                'itemList'=>$allItems,
+            ]);
+        }
     }
 
     public function create()
@@ -79,8 +82,10 @@ class TaskController extends Controller
     }
 
     public function destroy($id)
-    {
-        Task::findOrFail($id)->delete();
+    {   
+        $task = Task::findOrFail($id);
+        $task->items()->wherePivot('task_id','=',$task->id)->detach();// do not apply SoftDelete, instead, I deleted the data from the intermediate table by calling detach
+        $task->forceDelete();
         return response()->json();
     }
 }

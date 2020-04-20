@@ -31,17 +31,19 @@ class EditTask extends Component {
     console.log(this.state)
     return ( 
       <div><TaskForm handleSubmit={(task)=>{ //by dumping the handleSubmit into the child component, the Taskform can be shared by Edit and Create Task
-      const { dispatch } = props;
+      const { dispatch } = this.props;
+      const {  targeted_id, customer_name, trackingNumber, orderDescription, orderDescription_string, freightCompany} = task
       dispatch ({
           type: 'EDIT_TASK',//需要修改并且简化操作
-          customer_name: task.customer_name,
-          trackingNumber: task.trackingNumber, 
-          orderDescription:task.orderDescription,
-          orderDescription_string:task.orderDescription_string,
-          freightCompany: task.freightCompany
+          targeted_id,
+          customer_name,
+          trackingNumber, 
+          orderDescription_string,
+          freightCompany
       })
-      setTimeout(()=>props.history.push('/home'),2000)
+      setTimeout(()=>this.props.history.push('/home'),2000)
     }}
+    isEditForm={true}
     current_task ={this.getTargetedTask(this.props.match.params.id)} // pass down the current_task data to the child component
     />
     </div>)

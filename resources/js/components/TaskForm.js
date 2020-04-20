@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SpecialButton from './SpecialButton'
+import { compose } from 'redux';
 
 const mapStateToProps = (state) =>{
     return {
@@ -11,10 +12,7 @@ const mapStateToProps = (state) =>{
 class TaskForm extends Component {
     constructor(props){
         super(props);
-        console.log('~~~~~~')
-        console.log(this.props)
-        console.log('~~~~~~')
-        this.state = {
+        this.state = { // This taskform component is a child component which will receive the data passed down by its parents and determine the behabior of this component
             current_task_id: this.props.current_task?this.props.current_task.id:null,
             current_task_customerName: this.props.current_task?this.props.current_task.customer_name:'',
             current_task_trackNumber: this.props.current_task?this.props.current_task.trackingNumber:'',
@@ -22,11 +20,11 @@ class TaskForm extends Component {
             current_task_FreightCompany: this.props.current_task?this.props.current_task.freightCompany:'',
             current_task_orderDescription:[],
             isCreatesButton_Disabled:true,
-            isButton_Disabled:true,
             isConfirmButton_Disabled:true,
             isQuantitySelect_Disabled:true,
+            isEditForm: this.props.isEditForm?this.props.isEditForm:false,
             item_name:'',
-            item_quantity:0,
+            item_quantity:null,
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleItemSubmit = this.handleItemSubmit.bind(this);
@@ -38,7 +36,7 @@ class TaskForm extends Component {
         this.setState({
             current_task_orderDescription: [...this.state.current_task_orderDescription, {name:this.state.item_name, quantity: this.state.item_quantity}],//continue to add the new item_name and item-quantity to the order_description Array
             isCreatesButton_Disabled: false
-        },()=>{
+        },()=>{ // use callback to wait the completion of the first setState, then move on to the second one
             this.setState({
                 current_task_orderDescription_string: ((description='')=>{
                     this.state.current_task_orderDescription.forEach((i)=>{
@@ -52,7 +50,8 @@ class TaskForm extends Component {
 
     onSubmit(e){
         e.preventDefault();
-        this.props.handleSubmit({ 
+        this.props.handleSubmit({
+            targeted_id: this.state.current_task_id,
             customer_name: this.state.current_task_customerName,
             trackingNumber: this.state.current_task_trackNumber, 
             orderDescription:this.state.current_task_orderDescription,
@@ -75,6 +74,7 @@ class TaskForm extends Component {
             })
             break;
             case "freightCompany": 
+                console.log(target.value)
                 this.setState({
                 current_task_FreightCompany: target.value
              })
@@ -115,7 +115,7 @@ class TaskForm extends Component {
                                         row='5'
                                         onChange = {this.handleChange}
                                         value={this.state.current_task_customerName}
-                                        placeholder='Enter the customer name' 
+                                        placeholder='输入用户姓名' 
                                         required
                                         maxLength = '255'
                                         name='customer_name'
@@ -125,7 +125,7 @@ class TaskForm extends Component {
                                         row='5'
                                         value={this.state.current_task_trackNumber}
                                         onChange = {this.handleChange}
-                                        placeholder='Enter the TrackingNumber' 
+                                        placeholder='输入单号' 
                                         required
                                         maxLength = '255'
                                         name='trackingNumber'
@@ -134,10 +134,12 @@ class TaskForm extends Component {
                                             <div className='row' >
                                                 <div className='col-6 col align-self-center'>
                                                     <div className='row' >
-                                                        <select onChange={this.handleChange} className='col-5' name="item_name">    
+                                                        <select disabled={this.state.isEditForm} onChange={this.handleChange} className='col-5' name="item_name">    
+                                                            <option> 选择物品名称 </option>
                                                             {this.renderItems()}
                                                         </select>
                                                         <select disabled={this.state.isQuantitySelect_Disabled} onChange={this.handleChange} className='col-5 ml-1' name="item_quantity">
+                                                            <option > 选择物品数量 </option>
                                                             <option value={1}>1</option>
                                                             <option value={2}>2</option>
                                                             <option value={3}>3</option>
@@ -150,7 +152,7 @@ class TaskForm extends Component {
 
                                                 <div className='col-6 no-gutters'>
                                                     <div className= 'row justify-content-end'>
-                                                        <button onClick={this.handleItemSubmit} type='submit' className='btn btn-sm btn-success col-4' disabled={this.state.isConfirmButton_Disabled}> Confirm </button>
+                                                        <button onClick={this.handleItemSubmit} type={'button'} className='btn btn-sm btn-success col-4' disabled={this.state.isConfirmButton_Disabled}> 确认添加 </button>
                                                     </div>    
                                                 </div>
                                             </div>
@@ -160,24 +162,21 @@ class TaskForm extends Component {
                                         readOnly
                                         className='form-control mt-2 mb-2' 
                                         row='5'// we use props directly
-                                        placeholder='The discription about the order' 
+                                        placeholder='订单详情' 
                                         value={this.state.current_task_orderDescription_string}
                                         maxLength = '255'
                                         name='orderDescription'
                                         onChange = {this.handleChange}
                                         />
-                                        <textarea 
-                                        className='form-control' 
-                                        row='5'
-                                        value={this.state.current_task_FreightCompany}
-                                        onChange = {this.handleChange}
-                                        placeholder='Please choose the freight company' 
-                                        required
-                                        maxLength = '255'
-                                        name='freightCompany'
-                                        />
+                                        <select defaultValue={this.state.current_task_FreightCompany} onChange={this.handleChange} className='col-5' name="freightCompany">
+                                            <option > 选择快递公司 </option>
+                                            <option value={'AuExpress'}>澳邮</option>
+                                            <option value={'FangZhou'}>方舟速递</option>
+                                            <option value={'YiSuDi'}>一速递</option>
+                                            <option value={'FangZhouFast'}>方舟特快</option>
+                                        </select>
                                     </div>
-                                    <SpecialButton  type={'submit'} isButton_Disabled={this.state.isCreatesButton_Disabled}/>
+                                    <SpecialButton  type={'submit'} isEditForm={this.state.isEditForm} isButton_Disabled={this.state.isEditForm == true?false:this.state.isCreatesButton_Disabled}/>
                                 </form>
                                 <hr />
                             </div>

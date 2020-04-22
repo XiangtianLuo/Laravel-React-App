@@ -25,8 +25,6 @@ export default ( state = taskReducerDefaultState, action )=>{
           })
           case 'UPDATE_CURRENT_TASK'://
             let edited_task = state.tasks.find( task => task.id == action.payload.id)
-            console.log(edited_task);
-            console.log(action.payload)
             return Object.assign({}, edited_task, { 
               edited_taskcustomer_name: action.payload.customer_name,
               trackingNumber: action.payload.trackingNumber,

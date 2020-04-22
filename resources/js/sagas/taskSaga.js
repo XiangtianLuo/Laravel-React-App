@@ -13,7 +13,6 @@ function* fetch_Tasks_Items_Data() {
 }
 
 function* create_newTask(action) {
-  console.log(action)
   const response = yield call(()=> axios.post('/tasks', {
     customer_name: action.customer_name,
     trackingNumber: action.trackingNumber,
@@ -42,20 +41,12 @@ function* delete_task(action){
 }
 
 function* edit_task(action){
-  console.log(action)
   const response = yield call(()=> axios.put(`/tasks/${action.targeted_id}`,{
     customer_name:action.customer_name,
     trackingNumber: action.trackingNumber,
     description:action.orderDescription_string,
     freightCompany:action.freightCompany
   }));
-  console.log(response)
-  //if(response.status === 200){// waite for more info
-  //  yield put({
-  //    type:'UPDATE_CURRENT_TASK',
-  //    payload: response.data
-  //  })
-  //}
 }
 
 function* watchEditTask() {

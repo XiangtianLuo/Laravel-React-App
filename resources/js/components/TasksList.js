@@ -7,6 +7,7 @@ const TasksList =(props)=> (
             <td className="align-middle"> {task.customer_name} </td>
             <td className="align-middle"> {<a href={`https://m.kuaidi100.com/result.jsp?nu=${task.trackingNumber}`}>{task.trackingNumber}</a>}</td>
             <td className="align-middle"> {task.description} </td>
+            <td className="align-middle"> {task.created_at.split(' ').slice(0,1)} </td>
             <td>  {<Link to={`/${task.id}/edit`} > 
                     <button className='btn-outline-info btn-sm float-right mr-1'> 
                         修改 

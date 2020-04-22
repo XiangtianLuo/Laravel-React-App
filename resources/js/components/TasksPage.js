@@ -87,7 +87,7 @@ class TasksPage extends Component {//This component will fetch the data and dump
       return (
         <div className="col-md-10 text-center">
           <Link to={`/dataChart`}> 
-          <button className='btn-danger mt-2 rounded'>
+          <button className='btn btn-success btn-sm mt-2 rounded'>
             查看数据统计 
           </button>
           </Link>
@@ -100,6 +100,7 @@ class TasksPage extends Component {//This component will fetch the data and dump
                     <th scope="col">收件人</th>
                     <th scope="col">订单号</th>
                     <th scope="col">订单详情</th>
+                    <th scope="col">订单时间</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                   </tr>

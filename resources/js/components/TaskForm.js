@@ -74,7 +74,6 @@ class TaskForm extends Component {
             })
             break;
             case "freightCompany": 
-                console.log(target.value)
                 this.setState({
                 current_task_FreightCompany: target.value
              })

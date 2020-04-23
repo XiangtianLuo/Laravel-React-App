@@ -141,7 +141,6 @@ class DataChart extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <div className="container datachart">
         <div className="row">

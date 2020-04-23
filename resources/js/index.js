@@ -11,6 +11,7 @@ import taskReducer from './reducers/taskChange';
 import createSagaMiddleware from 'redux-saga';
 import rootsaga from './sagas/taskSaga';
 import CreateTask from './components/CreateTask';
+import TasksPage from './components/TasksPage';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(taskReducer, applyMiddleware(sagaMiddleware))
@@ -26,7 +27,8 @@ if (document.getElementById('root')) {
                         <Route path="/dataChart" component={DataChart} />
                         <Route path="/createTask" component={CreateTask} />
                         <Route exact path="/:id/edit" component={EditTask} />
-                        <Route exact path="/home" component={Temp_App} />
+                        <Route exact path="/home" component={TasksPage} />
+                        <Route path="/" component={Temp_App} />
                     </Provider>    
                 </Switch>  
             </div>

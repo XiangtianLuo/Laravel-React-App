@@ -5,6 +5,18 @@
 @import 'variables';
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import '~bootstrap/scss/bootstrap'; // the order of the importing is very important
 
-@import './dataChart.scss'
+@import './dataChart';
+
+@import './navigation';
+
+@import './spacing';
+
+@import './sideNav';
+
+@import './taskForm';
+
+@import './taskPage'
+
+

@@ -85,12 +85,7 @@ class TasksPage extends Component {//This component will fetch the data and dump
   render() {
       const display_tasks = this.state.filtered_tasks == false? this.props.tasks: this.state.filtered_tasks
       return (
-        <div className="col-md-10 text-center">
-          <Link to={`/dataChart`}> 
-          <button className='btn btn-success btn-sm mt-2 rounded'>
-            查看数据统计 
-          </button>
-          </Link>
+        <div className="col-md-10 text-center" id="layoutSidenav_content">
           <div className="card text-left mt-2"> 
               <TasksFilter onchange={this.onTextchange}/>
               <div className="card-body bg-light">
@@ -112,11 +107,6 @@ class TasksPage extends Component {//This component will fetch the data and dump
               </div>
           </div>
           <PaginationPage totalItemsCount={display_tasks.length} handlePageChange={this.handlePageChange} activePage={this.state.activePage}/>
-          <Link to={`/createTask`} > 
-            <button className='btn-primary mt-2 rounded'>
-              建立新订单 
-            </button>
-          </Link>
         </div>
       );
   }

@@ -28,7 +28,6 @@ class EditTask extends Component {
 
 
   render(){
-    console.log(this.state)
     return ( 
       <div><TaskForm handleSubmit={(task)=>{ //by dumping the handleSubmit into the child component, the Taskform can be shared by Edit and Create Task
       const { dispatch } = this.props;

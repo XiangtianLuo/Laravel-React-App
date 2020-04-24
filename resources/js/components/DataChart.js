@@ -142,9 +142,15 @@ class DataChart extends Component {
 
   render() {
     return (
-      <div className="container datachart">
-        <div className="row">
+      <div className="col col-md-8 text-center" id="layoutSidenav_content">
+        <div className="row mt-5">
           <div className="col-10">
+            <div className="col-2">
+              <select onChange={this.handleChange} className='m-auto' name="item_name">    
+              <option> 选择物品名称 </option>
+              {this.renderItems()}
+              </select>
+            </div>
             <LineChart
             width={900}
             height={500}
@@ -161,12 +167,6 @@ class DataChart extends Component {
               <Line type="monotone" dataKey="quantity" stroke="#8884d8" strokeWidth="3"/>
             </LineChart>
           </div>
-          <div className="col-2">
-            <select onChange={this.handleChange} className='m-auto' name="item_name">    
-            <option> 选择物品名称 </option>
-            {this.renderItems()}
-            </select>
-        </div>
         </div>
       </div>
     );

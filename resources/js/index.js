@@ -21,14 +21,14 @@ sagaMiddleware.run(rootsaga);
 if (document.getElementById('root')) {
     ReactDOM.render(
         <BrowserRouter>
-            <div>
+            <div className="row appWrapper">
                 <Switch>
                     <Provider store = {store}>
+                        <Route path="/" component={Temp_App} />
                         <Route path="/dataChart" component={DataChart} />
                         <Route path="/createTask" component={CreateTask} />
                         <Route exact path="/:id/edit" component={EditTask} />
                         <Route exact path="/home" component={TasksPage} />
-                        <Route path="/" component={Temp_App} />
                     </Provider>    
                 </Switch>  
             </div>

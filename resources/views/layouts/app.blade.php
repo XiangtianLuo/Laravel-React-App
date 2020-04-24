@@ -10,7 +10,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -20,11 +19,11 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm front-component">
-            
-                <a class="navbar-brand navbar-adjust" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }} 
-                </a>
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm front-component">                
+                @if({Auth::user()->name}){
+                    <button class="btn btn-primary" id="menu-toggle">切换</button>
+                } // php Authentication
+                @endif
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -75,5 +74,13 @@
             @yield('content')
         </main>
     </div>
+
+    <script src="{{ asset('js/jquery.min.js')}}" > </script>
+    <script>
+        $("#menu-toggle").click(function(e) {
+          e.preventDefault();
+          $("#wrapper").toggleClass("toggled");
+        });
+    </script>
 </body>
 </html>

@@ -101,11 +101,11 @@ class TaskForm extends Component {
 
     render() {
         return (
-            <div className="container">
-                <div className="row justify-content-center">
+            <div className="col col-md-8 text-center" id="layoutSidenav_content">
+                <div className="row justify-content-center mt-5">
                     <div className="col-md-8">
                         <div className="card">
-                            <div className="card-header">Example Component</div>
+                            <div className="card-header">新建订单</div>
                             <div className="card-body">
                                 <form onSubmit = {this.onSubmit}>
                                     <div className = 'form-group'>
@@ -131,7 +131,7 @@ class TaskForm extends Component {
                                         />
                                         <div className='container'>
                                             <div className='row' >
-                                                <div className='col-6 col align-self-center'>
+                                                <div className='col-md-6 align-self-center'>
                                                     <div className='row' >
                                                         <select disabled={this.state.isEditForm} onChange={this.handleChange} className='col-5' name="item_name">    
                                                             <option> 选择物品名称 </option>
@@ -149,7 +149,7 @@ class TaskForm extends Component {
                                                     </div>
                                                 </div>
 
-                                                <div className='col-6 no-gutters'>
+                                                <div className='col-md-6 no-gutters'>
                                                     <div className= 'row justify-content-end'>
                                                         <button onClick={this.handleItemSubmit} type={'button'} className='btn btn-sm btn-success col-4' disabled={this.state.isConfirmButton_Disabled}> 确认添加 </button>
                                                     </div>    

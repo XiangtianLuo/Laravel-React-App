@@ -8,7 +8,7 @@ const mapStateToProps = (state) =>{
 }
 
 const CreateTask = (props)=> {
-  return <div><TaskForm handleSubmit={(task)=>{ //by dumping the handleSubmit into the child component, the Taskform can be shared by Edit and Create Task
+  return <TaskForm handleSubmit={(task)=>{ //by dumping the handleSubmit into the child component, the Taskform can be shared by Edit and Create Task
     const { dispatch } = props;
     const { customer_name, trackingNumber, orderDescription, orderDescription_string, freightCompany } = task
     dispatch ({ 
@@ -21,7 +21,6 @@ const CreateTask = (props)=> {
     })
     setTimeout(()=>props.history.push('/home'),2000)
   }}/>
-  </div>
 }
 
 export default connect(mapStateToProps)(CreateTask);

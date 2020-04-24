@@ -85,11 +85,11 @@ class TasksPage extends Component {//This component will fetch the data and dump
   render() {
       const display_tasks = this.state.filtered_tasks == false? this.props.tasks: this.state.filtered_tasks
       return (
-        <div className="col-md-10 text-center" id="layoutSidenav_content">
+        <div className="col col-md-8 text-center" id="layoutSidenav_content">
           <div className="card text-left mt-2"> 
               <TasksFilter onchange={this.onTextchange}/>
-              <div className="card-body bg-light">
-              <table className="table table-striped border">
+              <div className="card-body bg-light table-responsive">
+              <table className="table table-striped border dataTable">
                 <thead className="thead-dark">
                   <tr>
                     <th scope="col">收件人</th>

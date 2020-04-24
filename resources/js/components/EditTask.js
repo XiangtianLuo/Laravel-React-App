@@ -26,10 +26,9 @@ class EditTask extends Component {
     }
   }
 
-
   render(){
     return ( 
-      <div><TaskForm handleSubmit={(task)=>{ //by dumping the handleSubmit into the child component, the Taskform can be shared by Edit and Create Task
+  <TaskForm handleSubmit={(task)=>{ //by dumping the handleSubmit into the child component, the Taskform can be shared by Edit and Create Task
       const { dispatch } = this.props;
       const {  targeted_id, customer_name, trackingNumber, orderDescription, orderDescription_string, freightCompany} = task
       dispatch ({
@@ -44,8 +43,7 @@ class EditTask extends Component {
     }}
     isEditForm={true}
     current_task ={this.getTargetedTask(this.props.match.params.id)} // pass down the current_task data to the child component
-    />
-    </div>)
+    />)
   }
 }
 

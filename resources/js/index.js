@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Temp_App from './components/Temp_App'
+import App from './components/App'
 import EditTask from './components/EditTask'
-import {BrowserRouter, Switch, Route, Link, Router} from 'react-router-dom';
+import {BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import DataChart from './components/DataChart'
 //import { changeMind } from './actions/changTaskName'; about to abandon this action due to the size of the project
@@ -24,7 +24,7 @@ if (document.getElementById('root')) {
             <div className="row appWrapper">
                 <Switch>
                     <Provider store = {store}>
-                        <Route path="/" component={Temp_App} />
+                        <Route path="/" component={App} />
                         <Route path="/dataChart" component={DataChart} />
                         <Route path="/createTask" component={CreateTask} />
                         <Route exact path="/:id/edit" component={EditTask} />

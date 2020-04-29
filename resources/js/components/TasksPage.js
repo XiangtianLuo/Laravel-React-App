@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import TasksList from './TasksList';
 import TasksFilter from './TasksFilter';
 import PaginationPage from './Pagination';
-import DataChart from './DataChart';
 
 const mapStateToProps = (state) =>{
   return {
@@ -32,12 +30,17 @@ class TasksPage extends Component {//This component will fetch the data and dump
 
   handleDelete(id) { //after handle delete method need to re-oriented to the 1st page
     const { dispatch } = this.props;
+    
     dispatch({ 
       type: 'DELETE_TASK',
       Deleted_id: id
     })
+
     this.setState({
       activePage:1,
+      filtered_tasks: this.state.filtered_tasks.filter(task=>
+          task.id !== id
+        )
     })
   }
 

@@ -10891,8 +10891,10 @@ a.text-dark:focus {
   margin-left: 3px;
 }
 
-#navbarDropdown {
-  margin-right: 100px;
+.navbar-nav {
+  flex-flow: row nowrap;
+  justify-content: start;
+  width: 100%;
 }
 
 #sidebar-wrapper {
@@ -10929,7 +10931,11 @@ a.text-dark:focus {
   margin-left: 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1000px) {
+  #layoutSidenav_content {
+    margin-left: 90px;
+  }
+
   #sidebar-wrapper {
     margin-left: 10px;
   }
@@ -10941,15 +10947,12 @@ a.text-dark:focus {
   #wrapper.toggled #sidebar-wrapper {
     margin-left: -15rem;
   }
-
-  #layoutSidenav_content {
-    margin-left: 100px;
-  }
 }
 
 #layoutSidenav_content {
   position: relative;
   display: flex;
+  margin: auto;
   flex-direction: column;
   min-width: 0;
   flex-grow: 1;
